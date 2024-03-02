@@ -34,7 +34,7 @@ def main(test,exam):
     try:
         total = int(total_score(test,exam))
     except:
-        print("please input a digit")
+        print("please a digit")
     return test, exam ,total 
 
 def grade():
