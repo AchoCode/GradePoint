@@ -37,3 +37,5 @@ def main(test,exam):
         print("please input a digit")
     return test, exam ,total 
 
+def grade():
+    return 2 + 3
