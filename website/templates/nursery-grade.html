@@ -20,10 +20,10 @@
 
   <body>
     <div class="container my-2 p-2">
+      <a class="cta" href="/">Basic</a>
       <a class="cta" href="/secondary">Secondary</a>
-      <a class="cta" href="/nursery"> Nursery</a>
 
-      <form action="/" method="POST">
+      <form method="POST">
         <h5>Enter Student Name</h5>
         <input
           type="text"
@@ -103,13 +103,13 @@
             </tr>
 
             <tr>
-              <td>BASIC SCIENCE & TECHNOLOGY</td>
+              <td>NURSERY SCIENCE</td>
               <td>
                 <input
                   type="text"
                   class="form-control"
-                  name="bst-test"
-                  value="{{ bst_test }}"
+                  name="nur-sci-test"
+                  value="{{ nur_sci_test }}"
                   required
                 />
               </td>
@@ -117,8 +117,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  name="bst-exam"
-                  value="{{ bst_exam }}"
+                  name="nur-sci-exam"
+                  value="{{ nur_sci_exam }}"
                   required
                 />
               </td>
@@ -126,19 +126,19 @@
                 <input
                   type="text"
                   class="form-control"
-                  value="{{ bst_total }}"
+                  value="{{ nur_sci_total }}"
                   readonly
                 />
               </td>
             </tr>
             <tr>
-              <td>RELIGIOUS AND NATIONAL VALUES</td>
+              <td>CHRISTAIN RELIGIOUS KNOWLEDGE</td>
               <td>
                 <input
                   type="text"
                   class="form-control"
-                  name="rnv-test"
-                  value="{{ rnv_test }}"
+                  name="crs-test"
+                  value="{{ crs_test }}"
                   required
                 />
               </td>
@@ -146,8 +146,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  name="rnv-exam"
-                  value="{{ rnv_exam }}"
+                  name="crs-exam"
+                  value="{{ crs_exam }}"
                   required
                 />
               </td>
@@ -155,40 +155,12 @@
                 <input
                   type="text"
                   class="form-control"
-                  value="{{ rnv_total }}"
+                  value="{{ crs_total }}"
                   readonly
                 />
               </td>
             </tr>
-            <tr>
-              <td>PRE-VOCATIONAL STUDIES</td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="prevoc-test"
-                  value="{{ prevoc_test }}"
-                  required
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="prevoc-exam"
-                  value="{{ prevoc_exam }}"
-                  required
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  value="{{ prevoc_total }}"
-                  readonly
-                />
-              </td>
-            </tr>
+
             <tr>
               <td>VERBAL REASONING</td>
               <td>
@@ -243,6 +215,66 @@
                   type="text"
                   class="form-control"
                   value="{{ quant_total }}"
+                  readonly
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>HEALTH HABITS</td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="health-hab-test"
+                  value="{{ health_hab_test }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="health-hab-exam"
+                  value="{{ health_hab_exam }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ health_hab_total }}"
+                  readonly
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>COMPUTER</td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="computer-test"
+                  value="{{ computer_test }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="computer-exam"
+                  value="{{ computer_exam }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ computer_total }}"
                   readonly
                 />
               </td>
@@ -308,13 +340,13 @@
             </tr>
 
             <tr>
-              <td>LITERATURE</td>
+              <td>WRITING</td>
               <td>
                 <input
                   type="text"
                   class="form-control"
-                  name="lit-test"
-                  value="{{ lit_test }}"
+                  name="writing-test"
+                  value="{{ writing_test }}"
                   required
                 />
               </td>
@@ -322,8 +354,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  name="lit-exam"
-                  value="{{ lit_exam }}"
+                  name="writing-exam"
+                  value="{{ writing_exam }}"
                   required
                 />
               </td>
@@ -331,7 +363,37 @@
                 <input
                   type="text"
                   class="form-control"
-                  value="{{ lit_total }}"
+                  value="{{ writing_total }}"
+                  readonly
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>SOCIAL HABITS</td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="soc-hab-test"
+                  value="{{ soc_hab_test }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="soc-hab-exam"
+                  value="{{ soc_hab_exam }}"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ soc_hab_total }}"
                   readonly
                 />
               </td>

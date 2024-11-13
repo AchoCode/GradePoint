@@ -1,253 +1,601 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="stylesheet"
-        href="{{url_for('static', filename='style.css')}}"
-      />
-        <title>Grading</title> 
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <title>Grading</title>
+  </head>
 
-    <body>
+  <body>
+    <div class="container">
+      <a class="cta" href="/">Basic</a>
+      <a class="cta" href="/nursery"> Nursery</a>
+      <h2>SECONDARY SCHOOL GRADING</h2>
+    </div>
 
-        <div class="container">
-            <a class="cta" href="/">Basic</a>
-            <h2>SECONDARY SCHOOL GRADING</h2>
-            
-        </div>
+    <div class="row">
+      <div class="col">
+        <div class="container my-2 p-2">
+          <form method="POST">
+            <h5>Enter Student Name</h5>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              value="{{ name_of_student}}"
+            /><br />
+            <table class="table table-dark">
+              <thead>
+                <tr>
+                  <th>SUBJECT</th>
+                  <th>TEST</th>
+                  <th>EXAM</th>
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MATHEMATICS</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="math-test"
+                      value="{{ math_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="math-exam"
+                      value="{{ math_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ math_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-        <div class="row">
-            <div class="col">
-                <div class="container my-2 p-2">
-                    <form method="POST">
-                        <h5>Enter Student Name</h5>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ name_of_student}}"><br>
-                        <table class="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th> SUBJECT </th>
-                                    <th> TEST</th>
-                                    <th> EXAM </th>
-                                    <th> TOTAL </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                 <tr>
-                                
-                                    <td>MATHEMATICS</td>
-                                    <td><input type="text" class="form-control" name="math-test" value="{{ math_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="math-exam" value="{{ math_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ math_total }}"readonly></td>
-                
-                                </tr>
-                                
-                                <tr>
-                                
-                                    <td>ENGLISH LANGUAGE</td>
-                                    <td><input type="text" class="form-control" name="eng-test" value="{{ eng_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="eng-exam" value="{{ eng_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ eng_total }}"readonly></td>
+                <tr>
+                  <td>ENGLISH LANGUAGE</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="eng-test"
+                      value="{{ eng_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="eng-exam"
+                      value="{{ eng_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ eng_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>ASUSU IGBO</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="igbo-test"
+                      value="{{ igbo_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="igbo-exam"
+                      value="{{ igbo_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ igbo_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>CIVIC EDUCATION</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="civic-test"
+                      value="{{ Civic_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="civic-exam"
+                      value="{{ Civic_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ Civic_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
-                                <tr>
-                                
-                                    <td>ASUSU IGBO</td>
-                                    <td><input type="text" class="form-control" name="igbo-test" value="{{ igbo_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="igbo-exam" value="{{ igbo_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ igbo_total }}"readonly></td>
+                <tr>
+                  <td>BASIC TECHNOLOGY</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="basic-tech-test"
+                      value="{{ basic_tech_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="basic-tech-exam"
+                      value="{{ basic_tech_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ basic_tech_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
-                                <tr>
-                                
-                                    <td>CIVIC EDUCATION</td>
-                                    <td><input type="text" class="form-control" name="civic-test" value="{{ Civic_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="civic-exam" value="{{ Civic_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ Civic_total }}"readonly></td>
+                <tr>
+                  <td>CHRISTAIN RELIGIOUS STUDIES</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="crs-test"
+                      value="{{ crs_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="crs-exam"
+                      value="{{ crs_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ crs_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
+                <tr>
+                  <td>PHYSICAL AND HEALTH EDUCATION</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="phe-test"
+                      value="{{ phe_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="phe-exam"
+                      value="{{ phe_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ phe_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                                <tr>
-                                
-                                    <td>BASIC TECHNOLOGY</td>
-                                    <td><input type="text" class="form-control" name="basic-tech-test" value="{{ basic_tech_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="basic-tech-exam" value="{{ basic_tech_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ basic_tech_total }}"readonly></td>
+                <tr>
+                  <td>COMPUTER SCIENCE</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="computer-test"
+                      value="{{ computer_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="computer-exam"
+                      value="{{ computer_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ computer_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
-                                
-                                <tr>
-                                
-                                    <td>CHRISTAIN RELIGIOUS STUDIES</td>
-                                    <td><input type="text" class="form-control" name="crs-test" value="{{ crs_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="crs-exam" value="{{ crs_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ crs_total }}"readonly></td>
+                <tr>
+                  <td>HOME ECONOMICS</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="homec-test"
+                      value="{{ Homec_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="homec-exam"
+                      value="{{ Homec_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ Homec_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
+                <tr>
+                  <td>BUSINESS STUDIES</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="business-studies-test"
+                      value="{{ business_studies_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="business-studies-exam"
+                      value="{{ business_studies_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ business_studies_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                                <tr>
-                                
-                                    <td>PHYSICAL AND HEALTH EDUCATION</td>
-                                    <td><input type="text" class="form-control" name="phe-test" value="{{ phe_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="phe-exam" value="{{ phe_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ phe_total }}" readonly></td>
+                <tr>
+                  <td>AGRICULTURAL SCIENCE</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="agric-test"
+                      value="{{ Agric_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="agric-exam"
+                      value="{{ Agric_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ Agric_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
+                <tr>
+                  <td>BASIC SCIENCE</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="basic-sci-test"
+                      value="{{ Basic_sci_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="basic-sci-exam"
+                      value="{{ Basic_sci_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ Basic_sci_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                                <tr>
-                                
-                                    <td>COMPUTER SCIENCE</td>
-                                    <td><input type="text" class="form-control" name="computer-test" value="{{ computer_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="computer-exam" value="{{ computer_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ computer_total }}"readonly></td>
+                <tr>
+                  <td>CULTURAL & CREATIVE ARTS</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="cca-test"
+                      value="{{ cca_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="cca-exam"
+                      value="{{ cca_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ cca_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
+                <tr>
+                  <td>SOCIAL STUDIES</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="social-studies-test"
+                      value="{{ social_studies_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="social-studies-exam"
+                      value="{{ social_studies_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ social_studies_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                                <tr>
-                                
-                                    <td>HOME ECONOMICS</td>
-                                    <td><input type="text" class="form-control" name="homec-test" value="{{ Homec_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="homec-exam" value="{{ Homec_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ Homec_total }}"readonly></td>
+                <tr>
+                  <td>LITERATURE</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="lit-test"
+                      value="{{ lit_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="lit-exam"
+                      value="{{ lit_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ lit_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
 
-                
-                                </tr>
-
-                                <tr>
-                                
-                                    <td>BUSINESS STUDIES</td>
-                                    <td><input type="text" class="form-control" name="business-studies-test" value="{{ business_studies_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="business-studies-exam" value="{{ business_studies_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ business_studies_total }}"readonly></td>
-
-                
-                                </tr>
-
-                                <tr>
-                                
-                                    <td>AGRICULTURAL SCIENCE</td>
-                                    <td><input type="text" class="form-control" name="agric-test" value="{{ Agric_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="agric-exam" value="{{ Agric_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ Agric_total }}"readonly></td>
-
-                
-                                </tr>
-
-                                <tr>
-                                
-                                    <td>BASIC SCIENCE</td>
-                                    <td><input type="text" class="form-control" name="basic-sci-test" value="{{ Basic_sci_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="basic-sci-exam" value="{{ Basic_sci_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ Basic_sci_total }}"readonly></td>
-
-                
-                                </tr>
-                                
-                                <tr>
-                                
-                                    <td>CULTURAL & CREATIVE ARTS</td>
-                                    <td><input type="text" class="form-control" name="cca-test" value="{{ cca_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="cca-exam" value="{{ cca_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ cca_total }}"readonly></td>
-                                </tr>
-                            
-
-                                <tr>
-                                
-                                    <td>SOCIAL STUDIES</td>
-                                    <td><input type="text" class="form-control" name="social-studies-test" value="{{ social_studies_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="social-studies-exam" value="{{ social_studies_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ social_studies_total }}"readonly></td>
-
-                
-                                </tr> 
-                                
-                                <tr>
-                                
-                                    <td>LITERATURE</td>
-                                    <td><input type="text" class="form-control" name="lit-test" value="{{ lit_test }}" required></td>
-                                    <td><input type="text" class="form-control" name="lit-exam" value="{{ lit_exam }}" required></td>
-                                    <td><input type="text" class="form-control" value="{{ lit_total }}" readonly></td>
-
-                
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="form-row">
-                            <div class="col">
-                                <h5 align="center" >AVERAGE</h5>
-                                <input type="text" class="form-control" id="name" value="{{ sec_average }}" readonly><br>
-                            </div>
-                            <div class="col"> 
-                                <h5 align="center">TOTAL SCORE</h5>
-                                <input type="text" class="form-control" id="name" value="{{ sec_total_score }}" readonly><br>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary">Calculate</button><BR>
-                    </form><br>  
-
-                   <button id="clearBtn" class="btn btn-primary">Clear</button><BR>
-
-                </div>
+                <tr>
+                  <td>HISTORY</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="history-test"
+                      value="{{ history_test }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="history-exam"
+                      value="{{ history_exam }}"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ history_total }}"
+                      readonly
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="form-row">
+              <div class="col">
+                <h5 align="center">AVERAGE</h5>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  value="{{ sec_average }}"
+                  readonly
+                /><br />
+              </div>
+              <div class="col">
+                <h5 align="center">TOTAL SCORE</h5>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  value="{{ sec_total_score }}"
+                  readonly
+                /><br />
+              </div>
             </div>
-            <div class="col">
-                <table class="table table-dark table-bordered my-5">
-                    <thead>
-                        <tr>
-                            <th> NAME OF STUDENT </th>
-                            <th> TOTAL SCORE</th>
-                            <th> AVERAGE SCORE </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for usr in students %}
-                            <tr>
-                                <td>
-                                {{ usr.Name }}
-                                </td>
-                                
-                                <td>
-                                {{ usr.Total_score }}
-                                </td>
+            <button class="btn btn-primary">Calculate</button><br />
+          </form>
+          <br />
 
-                                <td>
-                                    {{ usr.Average }}
-                                </td>
-                                <td><i class="fa-solid fa-trash-can" id="deleteBtn" onclick="deleteUsr({{usr.id}})"></i>
-                                </td>
-                            </tr>
-                              
-                        {% endfor %}                    
-                    </tbody>
-                </table>
-            </div>
+          <button id="clearBtn" class="btn btn-primary">Clear</button><br />
         </div>
-            
+      </div>
+      <div class="col">
+        <table class="table table-dark table-bordered my-5">
+          <thead>
+            <tr>
+              <th>NAME OF STUDENT</th>
+              <th>TOTAL SCORE</th>
+              <th>AVERAGE SCORE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for usr in students %}
+            <tr>
+              <td>{{ usr.Name }}</td>
+
+              <td>{{ usr.Total_score }}</td>
+
+              <td>{{ usr.Average }}</td>
+              <td>
+                <i
+                  class="fa-solid fa-trash-can"
+                  id="deleteBtn"
+                  onclick="deleteUsr({{usr.id}})"
+                ></i>
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!--button id="BackToTopBtn" class="btn btn-info hidden">To Top----><!---/button--->
-       <i id="BackToTopBtn" class="fa-solid fa-circle-arrow-up fa-2xl"></i>
-        <script
-        type="text/javascript"
-        src="{{ url_for('static', filename='index.js') }}"></script>
-        <script src="https://kit.fontawesome.com/044032d169.js" crossorigin="anonymous"></script>
-
-    </body>
+    <i id="BackToTopBtn" class="fa-solid fa-circle-arrow-up fa-2xl"></i>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='index.js') }}"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/044032d169.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

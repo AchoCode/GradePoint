@@ -5,15 +5,22 @@ def total(a,b,c,d,e,f,g,h,i,j):
     z = a + b + c + d + e + f + g + h + i + j
     return z
 
-def average_score(total_score):
+def nursery_total(a,b,c,d,e,f,g,h,i,j,k,l):
+    z = a + b + c + d + e + f + g + h + i + j + k + l
+    return z
+
+def nur_average_score(total_score):
     return total_score / 10
 
-def sec_total(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o):
-    z = a + b + c + d + e + f + g + h + i + j +k + l + m + n + o
+def average_score(total_score):
+    return total_score / 12
+
+def sec_total(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p):
+    z = a + b + c + d + e + f + g + h + i + j +k + l + m + n + o + p
     return z
 
 def sec_average_score(total_score):
-    return total_score / 15
+    return total_score / 16
 
 def convert_to_int(user_input):
     try:
