@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&family=Sofadi+One&display=swap");
+
+:root {
+  background-color: rgb(37, 37, 37);
+  --outline: 2px solid red;
+  --primary-color: green;
+  --primary-hover: rgb(3, 85, 3);
+  --secondary-font: Sofadi One;
+  --overlay: linear-gradient(rgb(0, 0, 0, 0.9), rgb(0, 0, 0, 0.8));
+  --img-overlay: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5));
+  font-family: SUSE;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+/* NAVIGATION BAR COMPONENT */
+.logo {
+  height: 80px;
+  scale: 0.8;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+  position: absolute;
+  top: 5px;
+  width: 100%;
+}
+.navlinks {
+  display: inline-block;
+  margin: 5px;
+  list-style: none;
+  transition: 0.3s;
+  padding: 2px 10px;
+}
+.nav-container ul {
+  margin-right: 30px;
+}
+.navlinks a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.navlinks:hover {
+  scale: 1.05;
+}
+.navlinks.btn {
+  padding: 2px 20px;
+  border-radius: 7px;
+  border: 2px solid green;
+}
+.navlinks.btn:hover {
+  background-color: var(--primary-hover);
+  border: 2px solid transparent;
+}
+.navlinks.register {
+  background-color: green;
+}
+
+/* -------------- BUTTON COMPONENT -------------- */
+.btn {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+.btn-container {
+  padding: 8px 30px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  transition: 0.3s;
+  width: fit-content;
+  box-shadow: 5px 5px 2px 0.2px rgba(255, 255, 255, 0.178);
+  cursor: pointer;
+}
+.btn-container.secondary {
+  padding: 5px 30px;
+  border: 3px solid white;
+  border-radius: 10px;
+  background-color: transparent;
+  transition: 0.3s;
+  width: fit-content;
+  box-shadow: 5px 5px 2px 0.2px rgba(255, 255, 255, 0.123);
+  cursor: pointer;
+}
+.btn-container:hover {
+  background-color: var(--primary-hover);
+  scale: 1.02;
+}
+.btn-container.secondary:hover {
+  border: 3px solid transparent;
+  background-color: var(--primary-hover);
+  scale: 1.02;
+}
+.btn-container button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+/* HOMEPAGE COMPONENT - PAGE */
+.page-container {
+  position: relative;
+}
+.hero-section {
+  background-image: var(--overlay), url("assets/Static/herobg.jpg");
+  height: 600px;
+  background-position: right;
+  background-size: cover;
+  background-repeat: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+}
+.hero-text {
+  color: white;
+}
+.hero-text h1 {
+  font-size: 4rem;
+  margin: 15px 0;
+}
+.hero-text h2 {
+  font-size: 3rem;
+  margin: 0px;
+}
+.hero-text h3 {
+  font-size: 2rem;
+  margin: 0px;
+}
+.hero-text span {
+  color: var(--primary-color);
+}
+.hero-btns {
+  display: flex;
+  margin-top: 50px;
+  gap: 30px;
+}
