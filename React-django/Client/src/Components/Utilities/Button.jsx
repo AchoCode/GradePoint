@@ -12,8 +12,8 @@ export const Button = ({secondary, title, link, type, handleOnClick, }) => {
       ) : (
         <button
           type={type}
-          onClick={() => {
-            handleOnClick();
+          onClick={(event) => {
+            handleOnClick(event);
           }}
           className="btn"
         >

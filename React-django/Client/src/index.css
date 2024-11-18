@@ -15,6 +15,17 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+.overlay {
+  display: none;
+}
+.overlay.active {
+  display: block;
+  height: 100dvh;
+  width: 100vw;
+  position: absolute;
+  z-index: 1;
+  backdrop-filter: blur(15px);
+}
 /* NAVIGATION BAR COMPONENT */
 .logo {
   height: 80px;
@@ -27,6 +38,7 @@ body {
   position: absolute;
   top: 5px;
   width: 100%;
+  z-index: 2;
 }
 .navlinks {
   display: inline-block;
@@ -102,6 +114,7 @@ body {
 /* HOMEPAGE COMPONENT - PAGE */
 .page-container {
   position: relative;
+  overflow: hidden;
 }
 .hero-section {
   background-image: var(--overlay), url("assets/Static/herobg.jpg");
@@ -137,3 +150,52 @@ body {
   margin-top: 50px;
   gap: 30px;
 }
+.container-2 {
+  position: absolute;
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  bottom: 20px;
+  transform: translateY(200px);
+  transition: 0.3s;
+  opacity: 0;
+  z-index: 2;
+}
+.container-2.visible {
+  transform: translateY(-100px);
+  opacity: 1;
+}
+.container-2 h3 {
+  color: white;
+  font-size: 2.5rem;
+  font-family: var(--secondary-font);
+}
+.choose-grade {
+  display: flex;
+  gap: 100px;
+  align-items: center;
+  justify-content: center;
+}
+.class-grade {
+  height: 200px;
+  width: 300px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--secondary-font);
+  color: white;
+  transition: 0.3s;
+  background-color: var(--primary-color);
+  box-shadow: 5px 5px 5px 0px rgba(255, 255, 255, 0.328);
+}
+.class-grade:hover {
+  background-color: var(--primary-hover);
+  scale: 0.95;
+}
+
