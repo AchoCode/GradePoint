@@ -1,7 +1,17 @@
-import React from 'react'
+import React from "react";
 
-export const InputField = () => {
+export const InputField = ({ label, value, onChange, readOnly, required, className }) => {
   return (
-    <div>InputField</div>
-  )
-}
+    <div className="input-field">
+      <input
+        type="text"
+        value={value}
+        onChange={(event)=>onChange(event)}
+        readOnly={readOnly}
+        placeholder={label}
+        required={required}
+        className={`form-field ${className? className : ''}`}
+      />
+    </div>
+  );
+};

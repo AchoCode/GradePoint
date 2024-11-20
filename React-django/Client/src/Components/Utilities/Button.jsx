@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Button = ({secondary, title, link, type, handleOnClick, }) => {
+export const Button = ({secondary, title, link, type='button', handleOnClick = ()=>{}, }) => {
   return (
     <div
       className={secondary ? `btn-container secondary` : `btn-container`}
