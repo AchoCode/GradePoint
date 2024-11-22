@@ -1,14 +1,21 @@
 import React from "react";
 import { Button } from "../Utilities/Button";
-export const SideNav = () => {
+export const SideNav = ({ activeTab, setActiveTab }) => {
+  const tabs = ["Nursery", "Primary", "Secondary", "Students", "Scratch cards"];
+
   return (
     <div className="side-nav">
-      <Button title='Nursery' link='/nursery-grade' />
-      <Button title='Primary' link='/primary-grade' />
-      <Button title='Secondary' link='/secondary-grade' />
-      <Button title='Manage students' link='/manage-students' />
-      <Button title='Scratch cards' link='/scratch-card' />
-      <Button title='Logout' />
+      {tabs.map((tab) => (
+        <Button
+          key={tab}
+          id={tab}
+          activeTab={activeTab}
+          handleOnClick={() => setActiveTab(tab)}
+          title={tab}
+          styling={activeTab == tab ? "active" : ""}
+        />
+      ))}
+      <Button title="Logout" />
     </div>
   );
 };

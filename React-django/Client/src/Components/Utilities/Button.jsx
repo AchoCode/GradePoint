@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Button = ({secondary, title, link, type='button', handleOnClick = ()=>{}, }) => {
+export const Button = ({title, link, type='button', handleOnClick = ()=>{}, styling}) => {
   return (
     <div
-      className={secondary ? `btn-container secondary` : `btn-container`}
+      className={styling ? `btn-container ${styling}` : `btn-container`}
     >
       {link ? (
         <a className="btn" href={link}>
@@ -15,7 +15,7 @@ export const Button = ({secondary, title, link, type='button', handleOnClick = (
           onClick={(event) => {
             handleOnClick(event);
           }}
-          className="btn"
+          className='btn'
         >
           {title}
         </button>

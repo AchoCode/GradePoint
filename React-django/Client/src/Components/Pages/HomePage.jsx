@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Navbar } from "../Utilities/Navbar";
 import { Button } from "../Utilities/Button";
 import { Link } from "react-router-dom";
 export const HomePage = () => {
+  const tabs = ["Nursery", "Primary", "Secondary"];
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
 
@@ -27,7 +27,6 @@ export const HomePage = () => {
   }, [isVisible]);
   return (
     <div className="page-container">
-      <Navbar />
       <div className={`overlay ${isVisible ? "active" : ""}`}></div>
       <div className="hero-section">
         <div className="container-1">
@@ -46,7 +45,7 @@ export const HomePage = () => {
               type="submit"
               handleOnClick={handleChooseGrade}
             />
-            <Button title="Learn more" link="/about-us" secondary />
+            <Button title="Learn more" link="/about-us" styling='secondary' />
           </div>
         </div>
       </div>
@@ -56,15 +55,18 @@ export const HomePage = () => {
       >
         <h3>Choose your class grade</h3>
         <div className="choose-grade">
-          <Link to="/nursery-grade" className="class-grade">
-            Nursery grade
-          </Link>
-          <Link to="/primary-grade" className="class-grade">
+          {tabs.map((tab) => (
+            <Link key={tab} to={`/grading?tab=${tab}`} className="class-grade">
+              {tab} grade
+            </Link>
+          ))}
+
+          {/* <Link to="/grading/primary-grade" className="class-grade">
             primary grade
           </Link>
-          <Link to="/secondary-grade" className="class-grade">
+          <Link to="/grading/secondary-grade" className="class-grade">
             Secondary grade
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
