@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
 import { SideNav } from "./SideNav";
+import axios from "axios";
 export const GradingComponent = ({ subjects, activeTab }) => {
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
@@ -22,16 +23,28 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     }));
   };
 
-  const [studentName, setStudedntName] = useState("");
+  const [studentName, setStudentName] = useState("");
 
   const handleNameInput = (event) => {
-    setStudedntName(event.target.value);
+    setStudentName(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //TODO: add form submit logic
-    alert("form submitted");
+    try {
+      const dataToSend = Object.fromEntries(
+        Object.entries(scores).map(([subject, { testScore, examScore }]) => [
+          subject,
+          { testScore, examScore },
+        ])
+      );
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/calculate/"
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClearGradingTable = () => {
