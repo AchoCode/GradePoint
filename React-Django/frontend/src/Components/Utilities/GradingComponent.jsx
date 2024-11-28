@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
-import { SideNav } from "./SideNav";
-import axios from "axios";
+import api from "../../api";
+
 export const GradingComponent = ({ subjects, activeTab }) => {
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
@@ -23,14 +23,18 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     }));
   };
 
-  const [studentName, setStudentName] = useState("");
-
-  const handleNameInput = (event) => {
-    setStudentName(event.target.value);
+  //defines api endpoints
+  const apiEndpoints = {
+    Nursery: "/api/calculate/nursery",
+    Primary: "/api/calculate/primary",
+    Secondary: "/api/calculate/secondary",
   };
+
+  const [studentName, setStudentName] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const dataToSend = Object.fromEntries(
         Object.entries(scores).map(([subject, { testScore, examScore }]) => [
@@ -38,18 +42,29 @@ export const GradingComponent = ({ subjects, activeTab }) => {
           { testScore, examScore },
         ])
       );
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/calculate/"
-      );
-      console.log(response.data);
+
+      const endpoint = apiEndpoints[activeTab] || "/api/calculate/nursery"; //default endpoint
+
+      //checks to submit to the proper backend api based on the active tab
+      const response = await api.post(endpoint, {
+        payLoad: dataToSend,
+        studentName: studentName,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleClearGradingTable = () => {
-    //TODO: add clear table logic
+    setScores((preScores) => {
+      const clearedFields = Object.keys(preScores).reduce((acc, subject) => {
+        acc[subject] = { testScore: "", examScore: "" };
+        return acc;
+      }, {});
+      return clearedFields;
+    });
   };
+
   return (
     <div className="input-container">
       <div className="grading-table-container">
@@ -64,13 +79,15 @@ export const GradingComponent = ({ subjects, activeTab }) => {
               label="Enter student name"
               value={studentName}
               onChange={(event) => {
-                handleNameInput(event);
+                setStudentName(event.target.value);
               }}
+              required={true}
               className="student-name"
             />
             <Button title="Clear" handleOnClick={handleClearGradingTable} />
             <Button title="Calculate" type="submit" />
           </div>
+
           <div className="grades-table">
             {subjects.map((subject, index) => (
               <div className="input-box" key={index}>

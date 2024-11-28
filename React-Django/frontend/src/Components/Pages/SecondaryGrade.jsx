@@ -2,13 +2,13 @@ import React from "react";
 import { GradingComponent } from "../Utilities/GradingComponent";
 export const SecondaryGrade = ({ activeTab }) => {
   const subjects = [
-    " MATHEMATICS	",
-    "ENGLISH LANGUAGE	",
+    "MATHEMATICS",
+    "ENGLISH LANGUAGE",
     "ASUSU IGBO",
     "CIVIC EDUCATION",
     "BASIC TECHNOLOGY",
     "CHRISTAIN RELIGIOUS STUDIES",
-    "PHYSICAL AND HEALTH EDUCATION	",
+    "PHYSICAL AND HEALTH EDUCATION",
     "COMPUTER SCIENCE",
     "HOME ECONOMICS",
     "BUSINESS STUDIES",
