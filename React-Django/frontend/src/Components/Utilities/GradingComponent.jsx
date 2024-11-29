@@ -4,10 +4,18 @@ import { Button } from "./Button";
 import api from "../../api";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
+  const [studentName, setStudentName] = useState("");
+  const [average, setAverage] = useState(0);
+  const [gradeTotal, setGradeTotal] = useState(0);
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
-      acc[subject] = { testScore: "", examScore: "", totalScore: "" };
+      acc[subject] = {
+        testScore: "",
+        examScore: "",
+        totalScore: "",
+        grade: "",
+      };
       return acc;
     }, {})
   );
@@ -30,11 +38,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     Secondary: "/api/calculate/secondary",
   };
 
-  const [studentName, setStudentName] = useState("");
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const dataToSend = Object.fromEntries(
         Object.entries(scores).map(([subject, { testScore, examScore }]) => [
@@ -45,10 +50,27 @@ export const GradingComponent = ({ subjects, activeTab }) => {
 
       const endpoint = apiEndpoints[activeTab] || "/api/calculate/nursery"; //default endpoint
 
-      //checks to submit to the proper backend api based on the active tab
       const response = await api.post(endpoint, {
         payLoad: dataToSend,
         studentName: studentName,
+      });
+
+      const apiData = response.data;
+      setAverage(apiData.payload["AVERAGE"]);
+      setGradeTotal(apiData.payload["TOTAL SCORE"]);
+
+      //updates total scores from api data
+      setScores((preScores) => {
+        const updateScores = Object.keys(preScores).reduce((acc, subject) => {
+          acc[subject] = {
+            ...preScores[subject],
+            totalScore: apiData.payload[subject]?.totalScore || "0",
+            grade: apiData.payload[subject]?.grade || "",
+          };
+          return acc;
+        }, {});
+
+        return updateScores;
       });
     } catch (error) {
       console.log(error);
@@ -58,11 +80,19 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const handleClearGradingTable = () => {
     setScores((preScores) => {
       const clearedFields = Object.keys(preScores).reduce((acc, subject) => {
-        acc[subject] = { testScore: "", examScore: "" };
+        acc[subject] = {
+          testScore: "",
+          examScore: "",
+          totalScore: "",
+          grade: "",
+        };
         return acc;
       }, {});
       return clearedFields;
     });
+    setAverage(0);
+    setGradeTotal(0);
+    setStudentName("");
   };
 
   return (
@@ -112,7 +142,18 @@ export const GradingComponent = ({ subjects, activeTab }) => {
                   readOnly
                   label="Total"
                   value={scores[subject].totalScore}
+                  className="read-only-field"
                 />
+                {activeTab === "Secondary" ? (
+                  <InputField
+                    readOnly
+                    label="Grade"
+                    value={scores[subject].grade}
+                    className="read-only-field"
+                  />
+                ) : (
+                  ""
+                )}
               </div>
             ))}
           </div>
@@ -124,15 +165,15 @@ export const GradingComponent = ({ subjects, activeTab }) => {
           <thead>
             <tr>
               <th>Name of student</th>
-              <th>Total score</th>
+              <th>Total</th>
               <th>Average</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Mike</td>
-              <td>12</td>
-              <td>120.0</td>
+              <td>{studentName}</td>
+              <td className="result-score">{gradeTotal}</td>
+              <td className="result-score">{average}</td>
             </tr>
           </tbody>
         </table>

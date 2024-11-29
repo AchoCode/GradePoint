@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .functions import calculate_total, calculate_average
+from .functions import calculate_total, calculate_average, check_subject_grade
 
 class NurseryCalculationAPI(APIView):
     def post(self, request):
@@ -74,14 +74,14 @@ class NurseryCalculationAPI(APIView):
                 'IGBO': {'totalScore':igbo_total},
                 'QUANTITATIVE': {'totalScore':quantitative_total},
                 'VERBAL': {'totalScore':verbal_total},
-                'SOCIAL_HABITS': {'totalScore':social_habits_total},
-                'HEALTH_HABITS': {'totalScore':health_habits_total},
+                'SOCIAL HABITS': {'totalScore':social_habits_total},
+                'HEALTH HABITS': {'totalScore':health_habits_total},
                 'COMPUTER': {'totalScore':computer_total},
                 'CHRISTIAN RELIGIOUS STUDIES': {'totalScore':crs_total},
                 'WRITING': {'totalScore':writing_total},
                 'CULTURAL AND CREATIVE ARTS': {'totalScore':cca_total},
                 'NURSERY SCIENCE': {'totalScore':nursery_sci_total},
-                 }
+                }
             return Response({"payload": data_to_send}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
@@ -220,21 +220,53 @@ class SecondaryCalculationAPI(APIView):
 
             try: 
                 english_total = calculate_total(english_test_score, english_exam_score)
+                english_grade = check_subject_grade(english_total)
+
                 math_total  = calculate_total(math_test_score, math_exam_score)
+                math_grade = check_subject_grade(math_total)
+
                 igbo_total = calculate_total(igbo_test_score, igbo_exam_score)
+                igbo_grade = check_subject_grade(igbo_total)
+
                 civic_total  = calculate_total(civic_test_score, civic_exam_score)
+                civic_grade = check_subject_grade(civic_total)
+
                 phe_total = calculate_total(phe_test_score, phe_exam_score)
+                phe_grade = check_subject_grade(phe_total)
+
                 basic_tech_total  = calculate_total(basic_tech_test_score, basic_tech_exam_score)
+                basic_tech_grade = check_subject_grade(basic_tech_total)
+
                 homec_total = calculate_total(homec_test_score,homec_exam_score)
+                homec_grade = check_subject_grade(homec_total)
+
                 literature_total  = calculate_total(literature_test_score, literature_exam_score)
+                literature_grade = check_subject_grade(literature_total)
+
                 crs_total = calculate_total(crs_test_score, crs_exam_score)
+                crs_grade = check_subject_grade(crs_total)
+
                 computer_total  = calculate_total(computer_test_score, computer_exam_score)
+                computer_grade = check_subject_grade(computer_total)
+                
                 cca_total = calculate_total(cca_test_score, cca_exam_score)
+                cca_grade = check_subject_grade(cca_total)
+
                 business_std_total = calculate_total(business_std_test_score, business_std_exam_score)
+                business_std_grade = check_subject_grade(business_std_total)
+
                 agric_total = calculate_total(agric_test_score, agric_exam_score)
+                agric_grade = check_subject_grade(agric_total)
+
                 basic_sci_total = calculate_total(basic_sci_test_score, basic_sci_exam_score)
+                basic_sci_grade = check_subject_grade(basic_sci_total)
+
                 social_std_total = calculate_total(social_std_test_score, social_std_exam_score)
+                social_std_grade = check_subject_grade(social_std_total)
+
                 history_total = calculate_total(history_test_score, history_exam_score)
+                history_grade = check_subject_grade(history_total)
+
             except Exception as e:
                 return Response({"error": 'please enter a Valid number'}, status=status.HTTP_200_OK)
             
@@ -246,22 +278,22 @@ class SecondaryCalculationAPI(APIView):
             data_to_send = {
                 'AVERAGE': average,
                 'TOTAL SCORE': grade_total,
-                'ENGLISH LANGUAGE': {'totalScore': english_total},
-                'MATHEMATICS': {'totalScore': math_total},
-                'ASUSU IGBO': {'totalScore': igbo_total},
-                'CIVIC EDUCATION': {'totalScore': civic_total},
-                'PHYSICAL AND HEALTH EDUCATION': {'totalScore': phe_total},
-                'BASIC TECHNOLOGY': {'totalScore': basic_tech_total},
-                'HOME ECONOMICS': {'totalScore': homec_total},
-                'LITERATURE_TOTAL': {'totalScore': literature_total},
-                'CHRISTAIN RELIGIOUS STUDIES': {'totalScore': crs_total},
-                'CULTURAL & CREATIVE ARTS': {'totalScore': cca_total},
-                'COMPUTER SCIENCE': {'totalScore': computer_total},
-                'BUSINESS STUDIES': {'totalScore': business_std_total},
-                'BASIC SCIENCE': {'totalScore': basic_sci_total},
-                'SOCIAL STUDIES': {'totalScore': social_std_total},
-                'HISTORY': {'totalScore': history_total},
-                'AGRICULTURAL SCIENCE': {'totalScore': agric_total},
+                'ENGLISH LANGUAGE': {'totalScore': english_total, 'grade': english_grade},
+                'MATHEMATICS': {'totalScore': math_total, 'grade': math_grade},
+                'ASUSU IGBO': {'totalScore': igbo_total, 'grade': igbo_grade},
+                'CIVIC EDUCATION': {'totalScore': civic_total, 'grade': civic_grade},
+                'PHYSICAL AND HEALTH EDUCATION': {'totalScore': phe_total, 'grade': phe_grade},
+                'BASIC TECHNOLOGY': {'totalScore': basic_tech_total, 'grade': basic_tech_grade},
+                'HOME ECONOMICS': {'totalScore': homec_total, 'grade': homec_grade},
+                'LITERATURE': {'totalScore': literature_total, 'grade': literature_grade},
+                'CHRISTAIN RELIGIOUS STUDIES': {'totalScore': crs_total, 'grade': crs_grade},
+                'CULTURAL & CREATIVE ARTS': {'totalScore': cca_total, 'grade': cca_grade},
+                'COMPUTER SCIENCE': {'totalScore': computer_total, 'grade': computer_grade},
+                'BUSINESS STUDIES': {'totalScore': business_std_total, 'grade': business_std_grade},
+                'BASIC SCIENCE': {'totalScore': basic_sci_total, 'grade': basic_sci_grade},
+                'SOCIAL STUDIES': {'totalScore': social_std_total, 'grade': social_std_grade},
+                'HISTORY': {'totalScore': history_total, 'grade': history_grade},
+                'AGRICULTURAL SCIENCE': {'totalScore': agric_total, 'grade': agric_grade},
                  }
             return Response({"payload": data_to_send}, status=status.HTTP_200_OK)
         except Exception as e:

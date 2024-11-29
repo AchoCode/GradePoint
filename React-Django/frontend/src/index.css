@@ -155,7 +155,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: transparent;
-  box-shadow: 0 0 0 0 ;
+  box-shadow: 0 0 0 0;
   border-radius: 0;
   width: 100%;
 }
@@ -282,9 +282,10 @@ body {
   border: none;
   border-radius: 5px;
   width: 70px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
   text-align: center;
-  padding: 5px 10px;
+  padding: 10px;
   color: white;
 }
 .input-container input::placeholder {
@@ -298,6 +299,7 @@ body {
   background-color: transparent;
   color: #232323;
   text-transform: capitalize;
+  font-weight: normal;
 }
 .form-field.student-name::placeholder {
   color: #555;
@@ -342,10 +344,19 @@ body {
 .results-table table {
   width: 100%;
 }
-.results-table table td{
-  padding: 0 20px
+.results-table table td {
+  padding: 0 20px;
+  font-weight: 600;
+  font-size: 1.4rem;
 }
-
+.results-table table th {
+  padding: 0 20px;
+  font-weight: 600;
+  text-align: start;
+}
+.result-score {
+  text-align: center;
+}
 /* grading component- component */
 
 .active-tab {
@@ -365,4 +376,12 @@ body {
 }
 .tab-section {
   width: 85%;
+}
+.form-field.read-only-field {
+  background-color: transparent;
+  color: orangered;
+  border: 3px solid orangered;
+}
+.form-field.read-only-field::placeholder {
+  color: orangered;
 }
