@@ -385,3 +385,9 @@ body {
 .form-field.read-only-field::placeholder {
   color: orangered;
 }
+
+/* CONTACT CONPONENT - PAGE */
+.contact-section {
+  padding-top: 100px;
+  color: white;
+}
