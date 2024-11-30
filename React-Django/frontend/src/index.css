@@ -388,6 +388,116 @@ body {
 
 /* CONTACT CONPONENT - PAGE */
 .contact-section {
-  padding-top: 100px;
+  background-image: var(--overlay), url("assets/Static/contact-us.jpg");
+  background-repeat: none;
+  background-position: center;
+  background-size: cover;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 10px 30px;
+  gap: 50px;
+}
+.contact-form-text {
+  width: 70%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  color: black;
+}
+.contact-text span {
+  background-color: rgba(131, 149, 239, 0.206);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-family: var(--secondary-font);
+  color: blue;
+}
+.contact-text h3 {
+  font-size: 2rem;
+  margin: 15px 0 10px;
+}
+.contact-text p{
+  font-size: 1.2rem;
+}
+
+.contact-form h4{
+  font-size: 1.4rem;
+  margin: 0;
+  font-family: var(--secondary-font);
+}
+.contact-form .input-field {
+  padding: 0 10px;
+  height: 40px;
+  width: 55%;
+  border-radius: 10px;
+  margin: 5px 0;
+  background-color: rgba(131, 149, 239, 0.337);
+}
+.contact-form .input-field input{
+  outline: none;
+  border: none;
+  font-size: 1.15rem;
+  background-color: transparent;
+}
+.contact-form textarea {
+  min-height: 30px;
+  max-width: 600px;
+  font-size: 1.3rem;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+.contact-form .btn-container {
+  justify-self: flex-end;
+  margin-top: 10px;
+}
+.contact-form .btn {
+  font-size: 1rem;
+}
+.contact-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 70%;
+  place-content: center;
+  place-items: center;
+  gap: 20px;
+  
+}
+.contact-box {
+  backdrop-filter: blur(20px);
+  width: 250px;
+  height: 150px;
+  padding: 15px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+.contact-box .icon {
+  border: 1px solid white;
+  width: fit-content;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.icon svg {
+  font-size: 1.4rem;
+}
+.contact-box .text h5{
+  margin: 20px 0 5px;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+.contact-box .text p{
+  margin: 0 0 20px;
+  font-size: 0.9rem;
+  color: #b4b2b2;
+}
+.contact-box a {
+  color: white
+}
+.contact-box .social-links {
+  display: flex;
+  gap: 10px;
+}
+.contact-box .social-links svg {
+  font-size: 1.3rem;
 }
