@@ -40,9 +40,11 @@ export const ContactUs = () => {
             <InputField
               label="Enter email address"
               type="email"
+              value={usrEmail}
               onChange={(e) => setUsrEmail(e.target.value)}
             />
             <textarea
+              value={usrComment}
               onChange={(e) => setUsrComment(e.target.value)}
             ></textarea>
             <Button type="submit" title="Submit" />

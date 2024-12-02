@@ -8,9 +8,10 @@ export const InputField = ({
   readOnly = false,
   required = false,
   className,
+  parentClass,
 }) => {
   return (
-    <div className="input-field">
+    <div className={parentClass ? `input-field ${parentClass}` : "input-field"}>
       <input
         type={type}
         value={value}

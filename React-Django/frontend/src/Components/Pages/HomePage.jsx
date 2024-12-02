@@ -42,10 +42,10 @@ export const HomePage = () => {
           <div className="hero-btns">
             <Button
               title="Start grading"
-              type="submit"
+              type="button"
               handleOnClick={handleChooseGrade}
             />
-            <Button title="Learn more" link="/about-us" styling='secondary' />
+            <Button title="Check results" link="/check-result" styling='secondary' />
           </div>
         </div>
       </div>
@@ -60,13 +60,6 @@ export const HomePage = () => {
               {tab} grade
             </Link>
           ))}
-
-          {/* <Link to="/grading/primary-grade" className="class-grade">
-            primary grade
-          </Link>
-          <Link to="/grading/secondary-grade" className="class-grade">
-            Secondary grade
-          </Link> */}
         </div>
       </div>
     </div>
