@@ -568,13 +568,13 @@ body {
   gap: 50px;
   width: 500px;
 }
-.auth-container .login-form{
+.auth-container .login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  width: 100%
+  width: 100%;
 }
 .heading.login {
   margin-bottom: 30px;
@@ -605,7 +605,7 @@ body {
 }
 .auth-container .btn-container {
   background-color: var(--primary-color);
-  box-shadow: 0 0 0 0 ;
+  box-shadow: 0 0 0 0;
   margin-bottom: 20px;
 }
 .auth-container .btn-container:hover {
@@ -630,4 +630,11 @@ body {
 }
 .auth-container .input-box .input-field {
   width: 40%;
+}
+
+/* CHECK RESULTS COMPONENT - PAGE */
+.results-section {
+  border: var(--outline);
+  height: 99vh;
+  padding: 100px 20px 0;
 }
