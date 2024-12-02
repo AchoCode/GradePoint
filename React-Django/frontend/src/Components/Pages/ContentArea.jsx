@@ -6,7 +6,6 @@ import { ErrorPage } from "./ErrorPage";
 import { LoginAuth } from "./LoginAuth";
 import { RegisterAuth } from "./RegisterAuth";
 import { Routes, Route } from "react-router-dom";
-import { ScratchCardPage } from "./ScratchCardPage";
 import { GradingTab } from "../Utilities/GradingTab";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +22,6 @@ function ContentArea() {
         <Route exact path="/check-result" element={<CheckResult />} />
         <Route exact path="/contact-us" element={<ContactUs />} />
         <Route exact path="/login-auth" element={<LoginAuth />} />
-        <Route exact path="/check-result" element={<ScratchCardPage />} />
         <Route exact path="/register-auth" element={<RegisterAuth />} />
         <Route exact path="/grading/*" element={<GradingTab />} />
         <Route path="*" element={<ErrorPage />} />
