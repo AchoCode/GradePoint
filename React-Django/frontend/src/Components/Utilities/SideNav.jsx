@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../Utilities/Button";
 export const SideNav = ({ activeTab, setActiveTab }) => {
-  const tabs = ["Nursery", "Primary", "Secondary", "Students", "Scratch cards"];
+  const tabs = ["Nursery", "Primary", "Secondary", "Students", "Scratch-cards"];
 
   return (
     <div className="side-nav">
