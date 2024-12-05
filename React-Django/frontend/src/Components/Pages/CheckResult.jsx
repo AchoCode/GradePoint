@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { InputField } from "../Utilities/InputField";
 import { Button } from "../Utilities/Button";
+import { ReportSheet } from "../Utilities/ReportSheet";
+import PlaceholderImg from "../../assets/Static/placeholder.png";
 export const CheckResult = () => {
+  // const [studentData, setStudentData] = useState({});
+  const [liveResult, setLiveResult] = useState(false);
+
   const studentData = {
     student: "Mike ejiaha",
     totalScore: "500",
     average: "97.0",
-    remark: "Good result keep it up",
     regNo: "LPMA-2425-6879",
     school: "Light Power Majestic Academy",
     cardUse: "1",
@@ -139,71 +143,22 @@ export const CheckResult = () => {
           <Button type="submit" title="Check result" />
         </form>
       </div>
-
-      <div className="result-display">
-        <div className="result-table">
-          <div className="student-details">
-            <h3 className="heading">Student details</h3>
-            <div className="name-info">
-              <h4>Student name :</h4>
-              <p>{studentData.student}</p>
-            </div>
-            <div className="name-info">
-              <h4>Registration Number :</h4>
-              <p>{studentData.regNo}</p>
-            </div>
-            <div className="name-info">
-              <h4>School :</h4>
-              <p>{studentData.school}</p>
-            </div>
-          </div>
-          <div className="grade-information">
-            <h3 className="heading">Subject Grades</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Test</th>
-                  <th>Exam</th>
-                  <th>Total</th>
-                  <th>Grade</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(subjectGrades).map((element) => (
-                  <tr key={element}>
-                    <td>{element[0]}</td> <td>{element[1].testScore}</td>
-                    <td>{element[1].examScore}</td>
-                    <td>{element[1].totalScore}</td> <td>{element[1].grade}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="other-info">
-              <div className="scores">
-                <div>
-                  <label htmlFor="">Overall total</label>
-                  {studentData.totalScore}
-                </div>
-                <div>
-                  <label htmlFor="">Average</label>
-                  {studentData.average}
-                </div>
-              </div>
-              <div className="remarks">
-                <div>
-                  <h5>
-                    Form master's Remark <span>{studentData.remark}</span>
-                  </h5>
-                </div>
-              </div>
-              <div className="card-info">
-                <span>Card use : {studentData.cardUse} of 5 </span>
-              </div>
-            </div>
+      {!liveResult ? (
+        <div className='placeholder-container'>
+          <img src={PlaceholderImg} alt="" />
+          <div className="text">
+            <h4>No data available</h4>
+            <p>Results will be shown when student data is fetched</p>
           </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <ReportSheet
+            studentData={studentData}
+            subjectGrades={subjectGrades}
+          />
+        </>
+      )}
     </div>
   );
 };
