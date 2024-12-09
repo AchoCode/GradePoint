@@ -13,7 +13,7 @@ export const GradingTab = () => {
   const queryParams = new URLSearchParams(location.search);
 
   //sets to the param or nursery if no param is found
-  const defaultTab = queryParams.get("tab") || "nursery";
+  const defaultTab = queryParams.get("tab") || "Nursery";
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   return (

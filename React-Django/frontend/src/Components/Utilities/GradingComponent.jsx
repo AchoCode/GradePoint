@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
 import api from "../../api";
+import { toast } from "react-toastify";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
   const [studentName, setStudentName] = useState("");
@@ -13,7 +14,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       acc[subject] = {
         testScore: 12,
         examScore: 12,
-        totalScore: '',
+        totalScore: "",
         grade: "",
       };
       return acc;
@@ -56,6 +57,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       });
 
       const apiData = response.data;
+      toast.success('Data fetch complete...')
       setAverage(apiData.payload["AVERAGE"]);
       setGradeTotal(apiData.payload["TOTAL SCORE"]);
 
@@ -73,7 +75,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
         return updateScores;
       });
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Try again");
     }
   };
 

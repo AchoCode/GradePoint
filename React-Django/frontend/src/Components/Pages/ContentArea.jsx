@@ -14,7 +14,7 @@ function ContentArea() {
   return (
     <>
         <ToastContainer position="top-center" stacked style={{
-          top: 120
+          top: 50
         }}/>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
