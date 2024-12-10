@@ -77,6 +77,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     } catch (error) {
       toast.error("Something went wrong. Try again");
       console.log(error);
+      console.log(import.meta.env.VITE_API_URL);
     }
   };
 
