@@ -8,7 +8,7 @@ def index(response):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index(), name='index'),
+    path('', index, name='index'),
     path('api/', include('api.urls')),
     path('register-user/', UserRegistration.as_view(), name='register')
 ]
