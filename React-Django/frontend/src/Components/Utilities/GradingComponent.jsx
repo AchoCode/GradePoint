@@ -5,15 +5,15 @@ import api from "../../api";
 import { toast } from "react-toastify";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
-  const [studentName, setStudentName] = useState("");
+  const [studentName, setStudentName] = useState("Student name");
   const [average, setAverage] = useState(0);
   const [gradeTotal, setGradeTotal] = useState(0);
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: "",
-        examScore: "",
+        testScore: 10,
+        examScore: 10,
         totalScore: "",
         grade: "",
       };
