@@ -76,6 +76,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       });
     } catch (error) {
       toast.error("Something went wrong. Try again");
+      console.log(error);
     }
   };
 
