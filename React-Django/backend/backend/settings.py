@@ -108,7 +108,7 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',  # React frontend
+    'https://grade-point-kappa.vercel.app',  # React frontend
 ]
 CORS_ALLOW_CREDENTIALS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
