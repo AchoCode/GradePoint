@@ -12,8 +12,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: 12,
-        examScore: 12,
+        testScore: "",
+        examScore: "",
         totalScore: "",
         grade: "",
       };
@@ -57,7 +57,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       });
 
       const apiData = response.data;
-      toast.success('Data fetch complete...')
+      toast.success("Data fetch complete...");
       setAverage(apiData.payload["AVERAGE"]);
       setGradeTotal(apiData.payload["TOTAL SCORE"]);
 
