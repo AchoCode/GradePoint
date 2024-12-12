@@ -3,11 +3,13 @@ import { InputField } from "./InputField";
 import { Button } from "./Button";
 import api from "../../api";
 import { toast } from "react-toastify";
+import { Loader } from "./Loader";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
   const [studentName, setStudentName] = useState("Student name");
   const [average, setAverage] = useState(0);
   const [gradeTotal, setGradeTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
@@ -41,6 +43,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true)
     try {
       const dataToSend = Object.fromEntries(
         Object.entries(scores).map(([subject, { testScore, examScore }]) => [
@@ -57,11 +60,18 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       });
 
       const apiData = response.data;
-      toast.success("Data fetch complete...");
+
+      if (apiData.error) {
+        toast.error(apiData.error);
+      } else {
+        console.log(apiData, "juj");
+        toast.success("Data fetch complete...");
+      }
+
       setAverage(apiData.payload["AVERAGE"]);
       setGradeTotal(apiData.payload["TOTAL SCORE"]);
 
-      //updates total scores from api data
+      // updates total scores from api data
       setScores((preScores) => {
         const updateScores = Object.keys(preScores).reduce((acc, subject) => {
           acc[subject] = {
@@ -75,9 +85,10 @@ export const GradingComponent = ({ subjects, activeTab }) => {
         return updateScores;
       });
     } catch (error) {
-      toast.error("Something went wrong. Try again");
+      toast.error("oops!!. An unexpected error occurred.");
       console.log(error);
-      console.log(import.meta.env.VITE_API_URL);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -123,6 +134,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
           </div>
 
           <div className="grades-table">
+            <Loader loading={loading} grading />
+            <div className={`overlay ${loading ? `active` : ``} `}></div>
             {subjects.map((subject, index) => (
               <div className="input-box" key={index}>
                 <h3>{subject}</h3>
