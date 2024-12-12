@@ -41,7 +41,8 @@ class BaseCalculationAPI(APIView):
 
                 if test_score is None or exam_score is None:
                     return Response({
-                        'error': f'missing scores for {subject['name']}'}, 
+                        'error': f'missing scores for {subject["name"]}'
+                        }, 
                         status=status.HTTP_400_BAD_REQUEST
                         )
                 
