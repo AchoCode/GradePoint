@@ -14,7 +14,7 @@ export const LoginAuth = () => {
   const [usrPassword, setUsrPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,9 +29,12 @@ export const LoginAuth = () => {
           password: usrPassword,
         });
         if (response.status == 200) {
+
+          // set access and refresh tokens
           localStorage.setItem(ACCESS_TOKEN, response.data.access);
           localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
           toast.success("Login successful.");
+
           setLoggedIn(true);
           navigate("/grading");
         }
@@ -59,9 +62,10 @@ export const LoginAuth = () => {
             onChange={(e) => setUsrName(e.target.value)}
           />
           <InputField
-            type="password"
+            type="text"
             label="Enter password"
             value={usrPassword}
+            pwdField={true}
             onChange={(e) => setUsrPassword(e.target.value)}
           />
           <Button type="submit" title="Login user" />

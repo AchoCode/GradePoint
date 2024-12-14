@@ -14,8 +14,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: "",
-        examScore: "",
+        testScore: 50,
+        examScore: 50,
         totalScore: "",
         grade: "",
       };

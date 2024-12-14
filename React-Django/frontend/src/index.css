@@ -103,10 +103,10 @@ body {
   border-radius: 7px;
   background-color: transparent;
 }
-.navlinks .btn-container:hover{
+.navlinks .btn-container:hover {
   background-color: transparent;
 }
-.navlinks .btn{
+.navlinks .btn {
   font-size: 1.2rem;
   font-weight: 600;
   padding: 0;
@@ -289,6 +289,11 @@ body {
   display: flex;
   align-items: center;
   padding: 0 15px;
+  justify-content: space-between;
+  position: relative;
+}
+.input-wrapper {
+  width: 100%;
 }
 .input-container input {
   outline: none;
@@ -298,9 +303,9 @@ body {
   width: 70px;
   font-size: 1.3rem;
   font-weight: 600;
-  text-align: center;
   padding: 10px;
   color: white;
+  text-align: center;
 }
 .input-container input::placeholder {
   color: #bababa;
@@ -314,6 +319,18 @@ body {
   color: #232323;
   text-transform: capitalize;
   font-weight: normal;
+}
+.pwd-toggle-icon {
+  position: absolute;
+  right: 10px;
+  font-size: 1.5rem;
+  top: 20%;
+  color: #555;
+  cursor: pointer;
+}
+
+.pwd-toggle-icon:hover {
+  color: #000;
 }
 .form-field.student-name::placeholder {
   color: #555;
@@ -558,7 +575,8 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  backdrop-filter: blur(40px);
+  background: rgba(5, 170, 5, 0.168);
+  backdrop-filter: blur(20px);
   height: 400px;
   border-radius: 20px;
   overflow: hidden;
@@ -612,10 +630,13 @@ body {
   transform: translateX(225px);
   gap: 20px;
 }
+.register-form p {
+  margin: 2px 0;
+}
 .auth-container .input-field input {
   outline: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   background-color: transparent;
   color: black;
   width: 100%;
@@ -822,9 +843,9 @@ body {
 
 .loader-container {
   position: absolute;
-  top: 0;
+  top: 20px;
 }
-.loader-container.grading{
+.loader-container.grading {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -834,12 +855,12 @@ body {
   left: 40%;
   z-index: 2;
 }
-.loader-container.grading p{
+.loader-container.grading p {
   font-size: 1.3rem;
   color: white;
   margin: 5px;
   font-weight: 600;
 }
-.loader-container.none p{
-display: none
+.loader-container.none p {
+  display: none;
 }

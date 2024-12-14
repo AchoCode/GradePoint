@@ -86,7 +86,7 @@ export const RegisterAuth = () => {
             transition={{ duration: 0.2 }}
             className="form-container"
           >
-            <span>step 1 of 2</span>
+            <p>step 1 of 2</p>
             <InputField
               type="email"
               label="Email address"
@@ -116,9 +116,10 @@ export const RegisterAuth = () => {
             />
             <div className="input-box">
               <InputField
-                type="password"
+                type="text"
                 label="Password"
                 value={usrPassword}
+                pwdField={true}
                 onChange={(e) => setUsrPassword(e.target.value)}
               />
               <InputField

@@ -1,5 +1,5 @@
 import React from "react";
-import { BarLoader, PulseLoader } from "react-spinners";
+import { FadeLoader, PulseLoader } from "react-spinners";
 
 export const Loader = ({ loading = false, grading }) => {
   return (
@@ -7,11 +7,11 @@ export const Loader = ({ loading = false, grading }) => {
       {grading ? (
         <div className={`loader-container grading ${!loading ? `none` : ``}`}>
           <p>Fetching data</p>
-          <PulseLoader color="white" loading={loading} />
+          <FadeLoader color="white" loading={loading} />
         </div>
       ) : (
         <div className="loader-container">
-          <BarLoader color="green" loading={loading} style={{width: "80%" }} />
+          <PulseLoader color="white" loading={loading} style={{width: "80%", top: 40 }} />
         </div>
       )}
     </>
