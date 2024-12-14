@@ -1,8 +1,20 @@
 import React from "react";
 import { Button } from "../Utilities/Button";
-export const SideNav = ({ activeTab, setActiveTab }) => {
-  const tabs = ["Nursery", "Primary", "Secondary", "Students", "Scratch-cards"];
+import { useNavigate } from "react-router";
 
+export const SideNav = ({ activeTab, setActiveTab }) => {
+  const navigate = useNavigate();
+  const tabs = [
+    "Nursery",
+    "Primary",
+    "Secondary",
+    "Students",
+    "Scratch-card",
+    "Settings",
+    "Profile",
+  ];
+
+  const handleLogout = () => {};
   return (
     <div className="side-nav">
       {tabs.map((tab) => (
@@ -15,7 +27,6 @@ export const SideNav = ({ activeTab, setActiveTab }) => {
           styling={activeTab == tab ? "active" : ""}
         />
       ))}
-      <Button title="Logout" />
     </div>
   );
 };

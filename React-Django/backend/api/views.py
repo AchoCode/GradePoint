@@ -18,7 +18,8 @@ class UserRegistration(APIView):
             serializer.errors,
               status=status.HTTP_400_BAD_REQUEST
               )
-    
+
+
 class BaseCalculationAPI(APIView):
     def post(self, request):
         try:

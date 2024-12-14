@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SideNav } from "./SideNav";
 import { NurseryGrade } from "../Pages/NurseryGrade";
 import { SecondaryGrade } from "../Pages/SecondaryGrade";
@@ -6,6 +6,8 @@ import { PrimaryGrade } from "../Pages/PrimaryGrade";
 import { ScratchCardPage } from "../Pages/ScratchCardPage";
 import { ManageStudents } from "../Pages/ManageStudents";
 import { useLocation } from "react-router";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { AuthContext } from "./AuthContext";
 
 export const GradingTab = () => {
   //initialize location object and use it to get the url params
@@ -16,6 +18,13 @@ export const GradingTab = () => {
   const defaultTab = queryParams.get("tab") || "Nursery";
   const [activeTab, setActiveTab] = useState(defaultTab);
 
+  const { loggedIn } = useContext(AuthContext);
+  useEffect(() => {
+    console.log("====================================");
+    console.log(loggedIn);
+    console.log("====================================");
+  }, [location]);
+
   return (
     <div className="grading-tab">
       <div className="side-nav-section">
@@ -24,27 +33,31 @@ export const GradingTab = () => {
       <div className="tab-section">
         {activeTab == "Nursery" && (
           <div>
-            <NurseryGrade activeTab={activeTab}/>
+            <NurseryGrade activeTab={activeTab} />
           </div>
         )}
         {activeTab == "Secondary" && (
           <div>
-            <SecondaryGrade activeTab={activeTab}/>
+            <SecondaryGrade activeTab={activeTab} />
           </div>
         )}
         {activeTab == "Primary" && (
           <div>
-            <PrimaryGrade activeTab={activeTab}/>
+            <PrimaryGrade activeTab={activeTab} />
           </div>
         )}
         {activeTab == "Scratch-card" && (
           <div>
-            <ScratchCardPage activeTab={activeTab}/>
+            <ProtectedRoute>
+              <ScratchCardPage activeTab={activeTab} />
+            </ProtectedRoute>
           </div>
         )}
         {activeTab == "Students" && (
           <div>
-            <ManageStudents activeTab={activeTab}/>
+            <ProtectedRoute>
+              <ManageStudents activeTab={activeTab} />
+            </ProtectedRoute>
           </div>
         )}
       </div>

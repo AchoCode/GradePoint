@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
-import api from "../../api";
 import { toast } from "react-toastify";
 import { Loader } from "./Loader";
+import api from "../../api";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
   const [studentName, setStudentName] = useState("Student name");
@@ -14,8 +14,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: 10,
-        examScore: 10,
+        testScore: "",
+        examScore: "",
         totalScore: "",
         grade: "",
       };
@@ -43,7 +43,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       const dataToSend = Object.fromEntries(
         Object.entries(scores).map(([subject, { testScore, examScore }]) => [
@@ -87,8 +87,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     } catch (error) {
       toast.error("oops!!. An unexpected error occurred.");
       console.log(error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 

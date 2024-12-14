@@ -7,6 +7,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['phone_number', 'address', 'no_of_students']
 
+    
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
 
@@ -14,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'email', 'username', 'password', 'profile']
         extra_kwargs = {'password': {'write_only': True}}
-
+    
     def validate(self, data):
         # Ensure password and confirm_password match
         if data.get('password') != self.initial_data.get('confirm_password'):

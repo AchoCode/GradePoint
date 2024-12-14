@@ -1,5 +1,5 @@
 import { WebLayout } from "./Components/Utilities/WebLayout";
-import ContentArea from './Components/Pages/ContentArea'
+import ContentArea from "./Components/Pages/ContentArea";
 import { Navbar } from "./Components/Utilities/Navbar";
 
 function App() {

@@ -11,7 +11,7 @@ export const Loader = ({ loading = false, grading }) => {
         </div>
       ) : (
         <div className="loader-container">
-          <BarLoader color="green" loading={loading} style={{ width: "80%" }} />
+          <BarLoader color="green" loading={loading} style={{width: "80%" }} />
         </div>
       )}
     </>
