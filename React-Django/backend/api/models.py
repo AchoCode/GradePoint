@@ -30,6 +30,13 @@ class course(models.Model):
     def __str__(self):
         return self.subject
 
+class Comments(models.Model):
+    usr_email = models.EmailField()
+    usr_comment = models.TextField()
+
+    def __str__(self):
+        return self.usr_email
+    
 
 class Scratch_card(models.Model):
     card_number = models.CharField(max_length=100)

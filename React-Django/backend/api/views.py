@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CommentSerializer
 
 class UserRegistration(APIView):
     def post(self, request, *args, **kwargs):
@@ -13,12 +13,25 @@ class UserRegistration(APIView):
                 {'message': 'user created successfully', 'user':serializer.data},
                   status=status.HTTP_201_CREATED
                   )
-        print(serializer.errors)
         return Response(
             serializer.errors,
               status=status.HTTP_400_BAD_REQUEST
               )
 
+class CreateCommentView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {'message': 'comment submitted successfully'},
+                  status=status.HTTP_201_CREATED
+                  )
+        return Response(
+            serializer.errors,
+              status=status.HTTP_400_BAD_REQUEST
+              )
+        
 
 class BaseCalculationAPI(APIView):
     def post(self, request):

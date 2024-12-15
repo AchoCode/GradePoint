@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile
+from .models import UserProfile, Comments
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +37,14 @@ class UserSerializer(serializers.ModelSerializer):
         UserProfile.objects.update_or_create(user=user, defaults=profile_data)
 
         return user
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = ['id', 'usr_email', 'usr_comment']
+    # def validate(self, data):
+    #     # Checks if user already exists
+    #     if not User.objects.filter(email=data['usr_email']).exists():
+    #         raise serializers.ValidationError({'error': 'user doesnt exist'})
+    def create(self, validated_data):
+       return Comments.objects.create(**validated_data)
