@@ -23,10 +23,10 @@ export const ContactUs = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (usrEmail == "" || usrComment == "") {
-      toast.error("can not submit empty fields");
-    } else {
-      try {
+    try {
+      if (usrEmail == "" || usrComment == "") {
+        toast.error("can not submit empty fields");
+      } else {
         const response = await api.post("/api/create-comments", {
           usr_email: usrEmail,
           usr_comment: usrComment,
@@ -41,14 +41,14 @@ export const ContactUs = () => {
           console.log(response);
           console.log("====================================");
         }
-      } catch (error) {
-        toast.error("oops! something went wrong try again..");
-        console.log("====================================");
-        console.log(error);
-        console.log("====================================");
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      toast.error("oops! something went wrong try again..");
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
+    } finally {
+      setLoading(false);
     }
   };
 
