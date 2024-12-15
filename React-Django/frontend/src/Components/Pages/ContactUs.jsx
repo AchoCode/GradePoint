@@ -11,12 +11,44 @@ import {
 } from "react-icons/fa6";
 import { Button } from "../Utilities/Button";
 import { InputField } from "../Utilities/InputField";
+import api from "../../api";
+import { PulseLoader } from "react-spinners";
+import { toast } from "react-toastify";
+
 export const ContactUs = () => {
   const [usrEmail, setUsrEmail] = useState("");
   const [usrComment, setUsrComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    alert("cleickse");
+    setLoading(true);
+    try {
+      if (usrEmail == "" || usrComment == "") {
+        toast.error("can not submit empty fields");
+      }
+      const response = await api.post("/api/create-comments", {
+        usr_email: usrEmail,
+        usr_comment: usrComment,
+      });
+      if (response.status == 201) {
+        toast.success("Comment submitted successfully");
+        setUsrComment("");
+        setUsrEmail("");
+      } else {
+        toast.error(response.data.error);
+        console.log("====================================");
+        console.log(response);
+        console.log("====================================");
+      }
+    } catch (error) {
+      toast.error("oops! something went wrong try again..");
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,6 +67,7 @@ export const ContactUs = () => {
           </p>
         </div>
         <div className="contact-form">
+          <PulseLoader loading={loading} color="green" />
           <h4>Leave a comment</h4>
           <form onSubmit={handleOnSubmit}>
             <InputField
