@@ -23,31 +23,32 @@ export const ContactUs = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      if (usrEmail == "" || usrComment == "") {
-        toast.error("can not submit empty fields");
-      }
-      const response = await api.post("/api/create-comments", {
-        usr_email: usrEmail,
-        usr_comment: usrComment,
-      });
-      if (response.status == 201) {
-        toast.success("Comment submitted successfully");
-        setUsrComment("");
-        setUsrEmail("");
-      } else {
-        toast.error(response.data.error);
+    if (usrEmail == "" || usrComment == "") {
+      toast.error("can not submit empty fields");
+    } else {
+      try {
+        const response = await api.post("/api/create-comments", {
+          usr_email: usrEmail,
+          usr_comment: usrComment,
+        });
+        if (response.status == 201) {
+          toast.success("Comment submitted successfully");
+          setUsrComment("");
+          setUsrEmail("");
+        } else {
+          toast.error(response.data.error);
+          console.log("====================================");
+          console.log(response);
+          console.log("====================================");
+        }
+      } catch (error) {
+        toast.error("oops! something went wrong try again..");
         console.log("====================================");
-        console.log(response);
+        console.log(error);
         console.log("====================================");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      toast.error("oops! something went wrong try again..");
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
-    } finally {
-      setLoading(false);
     }
   };
 
