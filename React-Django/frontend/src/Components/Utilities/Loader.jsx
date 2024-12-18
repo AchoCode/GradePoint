@@ -5,7 +5,6 @@ export const Loader = ({
   loading = false,
   grading,
   color = "white",
-  top = 40,
 }) => {
   return (
     <>
@@ -15,7 +14,7 @@ export const Loader = ({
           <FadeLoader color={color} loading={loading} />
         </div>
       ) : (
-        <div className="loader-container" style={{width: "80%", top: `${top}px` }}>
+        <div className="loader-container" style={{top:30}}>
           <PulseLoader
             color={color}
             loading={loading}

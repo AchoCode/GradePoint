@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { Loader } from "../Utilities/Loader";
 import api from "../../api";
+import { Capitalize } from "../../Constants";
 
 export const RegisterAuth = () => {
   const [usrEmail, setUsrEmail] = useState("");
@@ -32,9 +33,10 @@ export const RegisterAuth = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+
     const dataToSend = {
       email: usrEmail,
-      username: usrName,
+      username: Capitalize(usrName),
       password: usrPassword,
       confirm_password: confirmPwd,
       profile: {
@@ -46,7 +48,6 @@ export const RegisterAuth = () => {
 
       const apiData = response.data;
 
-      console.log(apiData);
       toast.success("User registration successful");
 
       navigate("/login-auth");

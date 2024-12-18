@@ -42,9 +42,5 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = ['id', 'usr_email', 'usr_comment']
-    # def validate(self, data):
-    #     # Checks if user already exists
-    #     if not User.objects.filter(email=data['usr_email']).exists():
-    #         raise serializers.ValidationError({'error': 'user doesnt exist'})
     def create(self, validated_data):
        return Comments.objects.create(**validated_data)

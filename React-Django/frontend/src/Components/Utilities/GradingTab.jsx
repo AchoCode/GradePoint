@@ -7,7 +7,8 @@ import { ScratchCardPage } from "../Pages/ScratchCardPage";
 import { ManageStudents } from "../Pages/ManageStudents";
 import { useLocation } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { AuthContext } from "./AuthContext";
+import { Settings } from "../Pages/Settings";
+import { Profile } from "../Pages/Profile";
 
 export const GradingTab = () => {
   //initialize location object and use it to get the url params
@@ -17,13 +18,6 @@ export const GradingTab = () => {
   //sets to the param or nursery if no param is found
   const defaultTab = queryParams.get("tab") || "Nursery";
   const [activeTab, setActiveTab] = useState(defaultTab);
-
-  const { loggedIn } = useContext(AuthContext);
-  useEffect(() => {
-    console.log("====================================");
-    console.log(loggedIn);
-    console.log("====================================");
-  }, [location]);
 
   return (
     <div className="grading-tab">
@@ -46,7 +40,7 @@ export const GradingTab = () => {
             <PrimaryGrade activeTab={activeTab} />
           </div>
         )}
-        {activeTab == "Scratch-card" && (
+        {activeTab == "Cards" && (
           <div>
             <ProtectedRoute>
               <ScratchCardPage activeTab={activeTab} />
@@ -57,6 +51,20 @@ export const GradingTab = () => {
           <div>
             <ProtectedRoute>
               <ManageStudents activeTab={activeTab} />
+            </ProtectedRoute>
+          </div>
+        )}
+        {activeTab == "Settings" && (
+          <div>
+            <ProtectedRoute>
+              <Settings activeTab={activeTab} />
+            </ProtectedRoute>
+          </div>
+        )}
+        {activeTab == "Profile" && (
+          <div>
+            <ProtectedRoute>
+              <Profile activeTab={activeTab} />
             </ProtectedRoute>
           </div>
         )}

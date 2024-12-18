@@ -153,17 +153,14 @@ body {
 .side-nav {
   background-color: var(--primary-color);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  border-radius: 10px;
-  border: 3px solid white;
-  height: 350px;
-  padding: 5px 0;
   overflow: hidden;
 }
 .side-nav .btn {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 .side-nav .btn-container {
   display: flex;
@@ -268,14 +265,17 @@ body {
   scale: 0.95;
 }
 
-/*------------- INPUT COMPONENT ----------*/
+/*
+*================
+*INPUT COMPONENT 
+*================
+*/
 .input-container {
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
   overflow: hidden;
   height: 85vh;
-  width: 100%;
-  padding: 0 20px;
+  width: 99.5vw;
   gap: 20px;
 }
 .input-box {
@@ -335,11 +335,16 @@ body {
 .form-field.student-name::placeholder {
   color: #555;
 }
+
+/*
+*==================================
+*GRADING COMPONENT
+*==================================
+*/
 .grading-table-container {
   width: 60%;
-  padding: 0 12px 10px;
+  padding: 0 20px 20px;
   background-color: rgb(255, 255, 255);
-  border-radius: 10px;
   position: relative;
   overflow: hidden;
 }
@@ -351,10 +356,9 @@ body {
   box-shadow: 0 0 0 0;
 }
 .grades-table {
-  padding-left: 30px;
   overflow: auto;
   overflow-x: hidden;
-  height: 400px;
+  height: 390px;
 }
 .cta {
   display: flex;
@@ -364,32 +368,28 @@ body {
   margin: 10px 0;
 }
 .results-table {
-  width: 34%;
-  background-color: var(--primary-color);
-  border: 3px solid white;
-  border-radius: 10px;
+  width: 50%;
   font-size: 1.2rem;
   color: white;
   padding: 10px 0;
 }
 .results-table table {
   width: 100%;
+  border-collapse: collapse;
 }
-.results-table table td {
-  padding: 0 20px;
-  font-weight: 600;
-  font-size: 1.4rem;
-}
+.results-table table td,
 .results-table table th {
-  padding: 0 20px;
+  border: 1px solid white; /* Inside borders */
+  text-align: center; /* Centers the text horizontally */
+  vertical-align: middle; /* Centers the text vertically */
+  padding: 10px; /* Adds some space inside cells */
+  text-transform: uppercase;
   font-weight: 600;
-  text-align: start;
 }
+
 .result-score {
   text-align: center;
 }
-/* grading component- component */
-
 .active-tab {
   width: 25%;
   font-size: 1rem;
@@ -403,10 +403,11 @@ body {
 }
 .grading-tab {
   display: flex;
+  flex-direction: column;
   padding-top: 90px;
 }
 .tab-section {
-  width: 85%;
+  width: 90%;
 }
 .form-field.read-only-field {
   background-color: transparent;
@@ -473,7 +474,7 @@ body {
   border: none;
   font-size: 1.15rem;
   background-color: transparent;
-  width: 100%
+  width: 100%;
 }
 .contact-form textarea {
   min-height: 30px;
@@ -834,7 +835,7 @@ body {
   width: 50%;
   gap: 40px;
 }
-.placeholder-container img {
+.placeholder-img {
   width: 250px;
 }
 .placeholder-container .text h4,
@@ -844,9 +845,14 @@ body {
   font-size: 1.3rem;
 }
 
+/*
+*============
+*LOADER COMPONENT
+*============
+*/
 .loader-container {
   position: absolute;
-  top: 20px;
+  justify-content: center;
 }
 .loader-container.grading {
   position: absolute;
@@ -866,4 +872,40 @@ body {
 }
 .loader-container.none p {
   display: none;
+}
+/*
+*=========================
+*PROTECTED ROUTE COMPONENT
+*=========================
+*/
+.protected-route {
+  height: 450px;
+  width: 99.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: relative;
+}
+.protected-route .loader-container.grading {
+  left: auto;
+}
+.protected-route .content-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.protected-route a {
+  text-decoration: none;
+  color: white;
+  background: var(--primary-color);
+  padding: 5px 30px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.protected-route a:hover{
+  background: var(--primary-hover);
 }

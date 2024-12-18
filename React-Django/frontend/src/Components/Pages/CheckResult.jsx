@@ -145,7 +145,7 @@ export const CheckResult = () => {
       </div>
       {!liveResult ? (
         <div className='placeholder-container'>
-          <img src={PlaceholderImg} alt="" />
+          <img src={PlaceholderImg} className="placeholder-img" alt="image" />
           <div className="text">
             <h4>No data available</h4>
             <p>Results will be shown when student data is fetched</p>

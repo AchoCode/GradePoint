@@ -4,12 +4,15 @@ import { Button } from "./Button";
 import { toast } from "react-toastify";
 import { Loader } from "./Loader";
 import api from "../../api";
+import { Capitalize } from "../../Constants";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
   const [studentName, setStudentName] = useState("Student name");
   const [average, setAverage] = useState(0);
   const [gradeTotal, setGradeTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [students, setStudents] = useState({});
+
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
@@ -56,7 +59,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
 
       const response = await api.post(endpoint, {
         payLoad: dataToSend,
-        studentName: studentName,
+        studentName: Capitalize(studentName),
+        level: activeTab,
       });
 
       const apiData = response.data;
@@ -64,28 +68,30 @@ export const GradingComponent = ({ subjects, activeTab }) => {
       if (apiData.error) {
         toast.error(apiData.error);
       } else {
-        console.log(apiData, "juj");
         toast.success("Data fetch complete...");
+        setAverage(apiData.payload["AVERAGE"]);
+        setGradeTotal(apiData.payload["TOTAL SCORE"]);
+
+        if (apiData.payload.students) {
+          setStudents(apiData.payload.students);
+        }
+
+        // updates total scores from api data
+        setScores((preScores) => {
+          const updateScores = Object.keys(preScores).reduce((acc, subject) => {
+            acc[subject] = {
+              ...preScores[subject],
+              totalScore: apiData.payload[subject]?.totalScore || "0",
+              grade: apiData.payload[subject]?.grade || "",
+            };
+            return acc;
+          }, {});
+
+          return updateScores;
+        });
       }
-
-      setAverage(apiData.payload["AVERAGE"]);
-      setGradeTotal(apiData.payload["TOTAL SCORE"]);
-
-      // updates total scores from api data
-      setScores((preScores) => {
-        const updateScores = Object.keys(preScores).reduce((acc, subject) => {
-          acc[subject] = {
-            ...preScores[subject],
-            totalScore: apiData.payload[subject]?.totalScore || "0",
-            grade: apiData.payload[subject]?.grade || "",
-          };
-          return acc;
-        }, {});
-
-        return updateScores;
-      });
     } catch (error) {
-      toast.error("oops!!. An unexpected error occurred.");
+      toast.error("Sorry. An unexpected error occurred.");
       console.log(error);
     } finally {
       setLoading(false);
@@ -187,11 +193,21 @@ export const GradingComponent = ({ subjects, activeTab }) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{studentName}</td>
-              <td className="result-score">{gradeTotal}</td>
-              <td className="result-score">{average}</td>
-            </tr>
+            {Array.isArray(students) && students.length > 0 ? (
+              students.map((student, index) => (
+                <tr key={index}>
+                  <td>{student.name}</td>
+                  <td className="result-score">{student.overall_total}</td>
+                  <td className="result-score">{student.average}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td>{studentName}</td>
+                  <td className="result-score">{gradeTotal}</td>
+                  <td className="result-score">{average}</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

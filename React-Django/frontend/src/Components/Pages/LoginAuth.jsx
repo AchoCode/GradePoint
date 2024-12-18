@@ -6,7 +6,7 @@ import { FaUser } from "react-icons/fa6";
 import api from "../../api";
 import { Loader } from "../Utilities/Loader";
 import { toast } from "react-toastify";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../Constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN, Capitalize } from "../../Constants";
 import { AuthContext } from "../Utilities/AuthContext";
 
 export const LoginAuth = () => {
@@ -25,11 +25,10 @@ export const LoginAuth = () => {
     } else {
       try {
         const response = await api.post("/api/token/", {
-          username: usrName,
+          username: Capitalize(usrName),
           password: usrPassword,
         });
         if (response.status == 200) {
-
           // set access and refresh tokens
           localStorage.setItem(ACCESS_TOKEN, response.data.access);
           localStorage.setItem(REFRESH_TOKEN, response.data.refresh);

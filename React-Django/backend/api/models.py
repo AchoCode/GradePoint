@@ -12,20 +12,22 @@ class UserProfile(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
-    level = models.CharField(max_length=100)
-    reg_no = models.CharField(max_length=100)
-
+    level = models.CharField(max_length=100,blank=True, null=True)
+    reg_no = models.CharField(max_length=100, blank=True, null=True)
+    average = models.FloatField(default=0.0)
+    overall_total = models.IntegerField(default=0)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='students', null=True)
     def __str__(self):
-        return f'{self.name} {self.id}'
+        return f'{self.name}'
 
 
-class course(models.Model):
+class Course(models.Model):
     subject = models.CharField(max_length=100)
     test_score = models.CharField(max_length=100)
     exam_score = models.CharField(max_length=100)
     total_score = models.CharField(max_length=100)
     grade = models.CharField(max_length=100)
-    student_user = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_user', null=True)
+    student_user = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='courses', null=True)
 
     def __str__(self):
         return self.subject

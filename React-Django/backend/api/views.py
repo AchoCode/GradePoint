@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade
 from .serializers import UserSerializer, CommentSerializer
+from .models import Student, User, Course
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class UserRegistration(APIView):
     def post(self, request, *args, **kwargs):
@@ -35,15 +37,31 @@ class CreateCommentView(APIView):
 
 class BaseCalculationAPI(APIView):
     def post(self, request):
+        permission_classes = [AllowAny]
+
         try:
             payload = request.data.get('payLoad', '')
             if not payload:
                 return Response({'error': 'payload missing'}, status=status.HTTP_400_BAD_REQUEST)
             
+            # query for the student
             student_name = request.data.get("studentName", '')
+            student_level  = request.data.get("level", '')
+            student_usr = Student.objects.filter(name=student_name, level=student_level).first()
+
+            if not student_usr:
+                if request.user.is_authenticated:
+                    return Response({'error':'Student not found. Please check the "Manage Students" section.'})
+                
+                #creates student
+                student_usr = Student(
+                    name = student_name,
+                    level = student_level
+                )
+                student_usr.save()
             scores = {}
 
-              # Dynamically extract subjects from the payload
+            # Dynamically extract subjects from the payload
             subjects = [{'name': key, 'key': key} for key in payload.keys()]
             if not subjects:
                 return Response({'error': 'no subjects found in the payload'}, status=status.HTTP_400_BAD_REQUEST)
@@ -68,16 +86,36 @@ class BaseCalculationAPI(APIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
                 
+                Course.objects.create(
+                    subject=subject['name'],
+                    test_score = test_score,
+                    exam_score =  exam_score,
+                    total_score = total_score,
+                    student_user = student_usr
+                )
+
                 scores[subject['key']] = {'totalScore': total_score}
 
-                # calculating average and overall total
+            # calculating average and overall total
             average, overall_total = calculate_average(*[score['totalScore'] for score in scores.values()])
+
+            # update student usr model
+            student_usr.average = average
+            student_usr.overall_total = overall_total
+            student_usr.save()
+
+            students_list = {}
+
+            if request.user.is_authenticated:
+                usr = User.objects.filter(username=request.user).first()
+                students_list = usr.students.filter(level=student_level).values('name', 'average', 'overall_total')
 
             # build json response
             data_to_send = {
                 'AVERAGE': average,
                 'TOTAL SCORE': overall_total,
                 **scores,
+                'students':students_list,
             }
             return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
 

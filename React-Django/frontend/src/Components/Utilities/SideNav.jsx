@@ -1,20 +1,17 @@
 import React from "react";
 import { Button } from "../Utilities/Button";
-import { useNavigate } from "react-router";
 
 export const SideNav = ({ activeTab, setActiveTab }) => {
-  const navigate = useNavigate();
   const tabs = [
     "Nursery",
     "Primary",
     "Secondary",
     "Students",
-    "Scratch-card",
+    "Cards",
     "Settings",
     "Profile",
   ];
 
-  const handleLogout = () => {};
   return (
     <div className="side-nav">
       {tabs.map((tab) => (
