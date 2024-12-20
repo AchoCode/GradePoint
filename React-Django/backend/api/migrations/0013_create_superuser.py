@@ -5,7 +5,7 @@ import os
 
 def create_superuser(apps, schema_editor):
     User = apps.get_model('auth', 'User')
-    UserProfile = apps.get_model('myapp', 'UserProfile')  # Adjust the import path
+    UserProfile = apps.get_model('api', 'UserProfile')  # Adjust the import path
     username = os.getenv('DJANGO_ADMIN_USERNAME')
     email = os.getenv('DJANGO_ADMIN_EMAIL')
     password = os.getenv('DJANGO_ADMIN_PASSWORD')
@@ -15,21 +15,21 @@ def create_superuser(apps, schema_editor):
             "One or more environment variables (DJANGO_ADMIN_USERNAME, DJANGO_ADMIN_EMAIL, DJANGO_ADMIN_PASSWORD) are missing."
         )
 
-    user, created = User.objects.get_or_create(
-        username=username,
-        defaults={'email': email, 'is_staff': True, 'is_superuser': True}
-    )
-    if created:
-        user.set_password(password)
-        user.save()
+    # Delete any existing superuser with the same username or email
+    User.objects.filter(username=username).delete()
+    User.objects.filter(email=email).delete()
 
-    try:
-        UserProfile.objects.get_or_create(user=user)
-    except Exception as e:
-        raise RuntimeError(f"Failed to create UserProfile for superuser: {e}")
+    # Create the new superuser
+    user = User.objects.create_superuser(
+        username=username,
+        email=email,
+        password=password
+    )
+
+    # Ensure a UserProfile is created for the superuser
+    UserProfile.objects.get_or_create(user=user)
 
 class Migration(migrations.Migration):
- 
     dependencies = [
         ('api', '0012_alter_course_student_user'),
     ]
@@ -37,4 +37,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(create_superuser),
     ]
-
