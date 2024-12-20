@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade
-from .serializers import UserSerializer, CommentSerializer
+from .serializers import UserSerializer, CommentSerializer, StudentSerializer
 from .models import Student, User, Course
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -34,7 +34,42 @@ class CreateCommentView(APIView):
               status=status.HTTP_400_BAD_REQUEST
               )
         
+class CreateStudentView(APIView):
+    def post(self, request, *args, **kwargs):
+        permission_classes = [IsAuthenticated]
+        serializer = StudentSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class StudentListAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        permission_classes = [IsAuthenticated]
+        #* get authenticated user
+        usr = User.objects.filter(username=request.user).first()
+        #* get user student list
+        students_list = usr.students.all().values('id','name', 'level', 'reg_no')
+
+        data_to_send = {
+            'students':students_list,
+        }
+        return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
+
+class DeleteStudentView(APIView):
+    def delete(self, request, student_id):
+        try:
+            # Retrieve the student instance by its ID
+            student = Student.objects.get(id=student_id)
+            student.delete()  # Perform the deletion
+            return Response({"message": "Student deleted successfully"}, status=status.HTTP_200_OK)
+        except Student.DoesNotExist:
+            # If the student with the given ID does not exist
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Catch any other exceptions
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 class BaseCalculationAPI(APIView):
     def post(self, request):
         permission_classes = [AllowAny]

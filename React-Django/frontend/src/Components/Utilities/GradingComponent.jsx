@@ -7,7 +7,7 @@ import api from "../../api";
 import { Capitalize } from "../../Constants";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
-  const [studentName, setStudentName] = useState("Student name");
+  const [studentName, setStudentName] = useState("");
   const [average, setAverage] = useState(0);
   const [gradeTotal, setGradeTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -17,8 +17,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: 50,
-        examScore: 50,
+        testScore: "",
+        examScore: "",
         totalScore: "",
         grade: "",
       };
@@ -204,8 +204,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
             ) : (
               <tr>
                 <td>{studentName}</td>
-                  <td className="result-score">{gradeTotal}</td>
-                  <td className="result-score">{average}</td>
+                <td className="result-score">{gradeTotal}</td>
+                <td className="result-score">{average}</td>
               </tr>
             )}
           </tbody>

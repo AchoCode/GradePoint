@@ -18,7 +18,7 @@ class Student(models.Model):
     overall_total = models.IntegerField(default=0)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='students', null=True)
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} {self.reg_no}'
 
 
 class Course(models.Model):

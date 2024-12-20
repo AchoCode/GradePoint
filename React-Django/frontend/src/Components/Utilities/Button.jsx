@@ -7,6 +7,9 @@ export const Button = ({
   handleOnClick = () => {},
   styling,
 }) => {
+
+
+  
   return (
     <div className={styling ? `btn-container ${styling}` : `btn-container`}>
       {link ? (

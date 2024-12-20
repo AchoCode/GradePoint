@@ -30,8 +30,8 @@ export const InputField = ({
           required={required}
           className={`form-field ${className ? className : ""}`}
         />
-        {pwdField && (
-          hidePwd ? (
+        {pwdField &&
+          (hidePwd ? (
             <FaEye
               onClick={handlePwdVisibility}
               className="pwd-toggle-icon"
@@ -43,8 +43,7 @@ export const InputField = ({
               className="pwd-toggle-icon"
               aria-label="Hide password"
             />
-          )
-        )}
+          ))}
       </div>
     </div>
   );

@@ -1,15 +1,17 @@
-# calculating total score
+import random
+
+#* calculating total score
 def calculate_total(test_score, exam_score):
     return int(test_score) + int(exam_score)
 
-# calculating grade total and average
+#* calculating grade total and average
 def calculate_average(*args):
     grade_total = sum(args)
     number_of_courses = len(args)
     average = round(grade_total / number_of_courses, 1)
     return average, grade_total
 
-# calculating the grades based on the subject total
+#* calculating the grades based on the subject total
 def check_subject_grade(subject_total):
     if 80 <= subject_total <= 100:
         return 'A'
@@ -23,3 +25,5 @@ def check_subject_grade(subject_total):
         return 'E'
     else:
         return 'F'
+    
+

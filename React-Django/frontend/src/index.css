@@ -852,7 +852,9 @@ body {
 */
 .loader-container {
   position: absolute;
+  display: flex;
   justify-content: center;
+  align-items: center;
 }
 .loader-container.grading {
   position: absolute;
@@ -906,6 +908,170 @@ body {
   border-radius: 5px;
   transition: 0.3s;
 }
-.protected-route a:hover{
+.protected-route a:hover {
   background: var(--primary-hover);
+}
+
+/*
+*=========================
+* MANAGE STUDENT COMPONENT
+*=========================
+*/
+
+.tab-container {
+  height: 77vh;
+  width: 99.5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.student-list-table {
+  background-color: white;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.student-table-dash {
+  height: 50px;
+  margin: 5px;
+  background: var(--primary-color);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+.cta-box {
+  display: flex;
+  align-items: center;
+}
+.cta-box label {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.student-table-dash input {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 1.2rem;
+  color: black;
+  padding: 5px 10px;
+}
+.student-table-dash select {
+  outline: none;
+  height: 30px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin-left: 10px;
+  font-size: 1rem;
+  text-align: center;
+}
+.student-list {
+  height: 100%;
+  overflow-y: scroll;
+  padding-left: 20px;
+}
+.student-list table {
+  width: 100%;
+  padding-bottom: 80px;
+}
+.student-list table td,
+.student-list table th {
+  text-align: start; /* Centers the text horizontally */
+  vertical-align: middle; /* Centers the text vertically */
+  padding: 10px; /* Adds some space inside cells */
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.student-list .btn-container {
+  background-color: red;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.student-list .btn-container:hover {
+  background-color: rgb(152, 2, 2);
+}
+
+.student-list .btn {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.form-section {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+.form-section .update-form {
+  background-color: white;
+  height: fit-content;
+  width: 500px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+.update-form .heading {
+  color: white;
+  background-color: var(--primary-color);
+  padding: 2px 10px;
+  border-radius: 2px;
+  position: relative;
+}
+.heading .loader-container{
+  right: 10px;
+
+}
+.update-form .heading h3 {
+  margin: 5px;
+}
+.update-form .input-field {
+  height: 40px;
+  margin: 20px 0;
+  background-color: #969696;
+  border-radius: 5px;
+  width: 62%;
+}
+.update-form .input-field input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  width: 100%;
+}
+.update-form .input-field input::placeholder {
+  color: var(--primary-color);
+}
+.radio-btn-box .radio-btn {
+  margin: 10px 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.update-form label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.radio-btn input{
+  height: 20px;
+  width: 20px
+}
+.update-form .btn-container{
+  padding: 5px 25px;
+  justify-self: flex-end;
+  border-radius: 5px;
+}
+.update-form .btn {
+  font-size: 1.3rem;
 }

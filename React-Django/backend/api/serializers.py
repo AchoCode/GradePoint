@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile, Comments
-
+from .models import UserProfile, Comments, Student
+from datetime import datetime
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
@@ -44,3 +44,38 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'usr_email', 'usr_comment']
     def create(self, validated_data):
        return Comments.objects.create(**validated_data)
+    
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id','name','level','reg_no']
+    def validate(self, data):
+        student_name = data.get('name')
+        if Student.objects.filter(name=student_name).exists():
+            raise serializers.ValidationError({'error': 'Student already exists'})
+        return data
+    
+    def generate_registration_number(self):
+        """
+        Generates a unique registration number for the student.
+        """
+        current_year = datetime.now().year
+        last_student = Student.objects.last()  # Get the most recently added student
+        next_id = last_student.id + 1 if last_student else 1  # Determine the next ID
+        return f"LPMA/{current_year}/{next_id:04d}"  # Format: "2024-0001"
+
+    def create(self, validated_data):
+        """
+        Overriding the create method to set the teacher and generate a registration number.
+        """
+        request = self.context['request']  # Get the request object from the serializer context
+        validated_data['teacher'] = request.user  # Set the teacher to the logged-in user
+
+        # Create the student instance
+        student = super().create(validated_data)
+
+        # Generate and set the registration number
+        student.reg_no = self.generate_registration_number()
+        student.save()  # Save the student instance with the new registration number
+
+        return student
