@@ -4,20 +4,29 @@ from django.db import migrations
 import os
 
 def create_superuser(apps, schema_editor):
-    User = apps.get_model('auth', 'User')  # Dynamically fetch the User model
+    User = apps.get_model('auth', 'User')
+    UserProfile = apps.get_model('myapp', 'UserProfile')  # Adjust the import path
     username = os.getenv('DJANGO_ADMIN_USERNAME')
     email = os.getenv('DJANGO_ADMIN_EMAIL')
     password = os.getenv('DJANGO_ADMIN_PASSWORD')
 
-    if username and email and password:
-        if not User.objects.filter(username=username).exists():
-            User.objects.create_superuser(
-                username=username,
-                email=email,
-                password=password
-            )
-    else:
-        raise ValueError("DJANGO_ADMIN_USERNAME, DJANGO_ADMIN_EMAIL, or DJANGO_ADMIN_PASSWORD environment variables are not set")
+    if not all([username, email, password]):
+        raise ValueError(
+            "One or more environment variables (DJANGO_ADMIN_USERNAME, DJANGO_ADMIN_EMAIL, DJANGO_ADMIN_PASSWORD) are missing."
+        )
+
+    user, created = User.objects.get_or_create(
+        username=username,
+        defaults={'email': email, 'is_staff': True, 'is_superuser': True}
+    )
+    if created:
+        user.set_password(password)
+        user.save()
+
+    try:
+        UserProfile.objects.get_or_create(user=user)
+    except Exception as e:
+        raise RuntimeError(f"Failed to create UserProfile for superuser: {e}")
 
 class Migration(migrations.Migration):
  
