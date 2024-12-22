@@ -3,27 +3,40 @@ from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade
 from .serializers import UserSerializer, CommentSerializer, StudentSerializer
-from .models import Student, User, Course
+from .models import Student, User, Course, UserProfile
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            # Save the user object
-            user = serializer.save()
-            # Make the user an admin
-            user.is_superuser = True
-            user.is_staff = True
-            user.save()
+       # Fetch user details from the request data
+        username = request.data.get('username')
+        email = request.data.get('email')
+        password = request.data.get('password')
+        profile_data = request.data.get('profile', {})
+
+        if not username or not email or not password:
             return Response(
-                {'message': 'admin created successfully'},
-                  status=status.HTTP_201_CREATED
-                  )
-        return Response(
-            serializer.errors,
-              status=status.HTTP_400_BAD_REQUEST
-              )
+                {'error': 'username, email, and password are required.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Create superuser
+        try:
+            # Create the user
+            user = User.objects.create_superuser(username=username, email=email, password=password)
+
+            # Create the UserProfile with the one-to-one relationship
+            user_profile = UserProfile.objects.create(user=user, **profile_data)
+
+            return Response(
+                {'message': 'Superuser and profile created successfully.'},
+                status=status.HTTP_201_CREATED
+            )
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
     
 class UserRegistration(APIView):
     def post(self, request, *args, **kwargs):
