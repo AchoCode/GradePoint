@@ -10,7 +10,7 @@ class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-# Save the user object
+            # Save the user object
             user = serializer.save()
             # Make the user an admin
             user.is_superuser = True
