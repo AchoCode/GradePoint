@@ -6,6 +6,25 @@ from .serializers import UserSerializer, CommentSerializer, StudentSerializer
 from .models import Student, User, Course
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
+class AdminRegistration(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+# Save the user object
+            user = serializer.save()
+            # Make the user an admin
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
+            return Response(
+                {'message': 'admin created successfully'},
+                  status=status.HTTP_201_CREATED
+                  )
+        return Response(
+            serializer.errors,
+              status=status.HTTP_400_BAD_REQUEST
+              )
+    
 class UserRegistration(APIView):
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)

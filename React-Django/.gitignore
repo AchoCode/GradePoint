@@ -1,3 +1,4 @@
 # ignore all environmental variables
 .env
 frontend/.env
+backend/.env
