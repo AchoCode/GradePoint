@@ -5,7 +5,7 @@ from .functions import calculate_total, calculate_average, check_subject_grade
 from .serializers import UserSerializer, CommentSerializer, StudentSerializer, AdminSerializer
 from .models import Student, User, Course, UserProfile
 from rest_framework.permissions import AllowAny, IsAuthenticated
-import json
+
 
 class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
@@ -13,7 +13,6 @@ class AdminRegistration(APIView):
         serializer = AdminSerializer(data=request.data)
         if serializer.is_valid():
             usr = serializer.save()
-
             usr.is_staff = True
             usr.is_superuser = True
             usr.save()
