@@ -10,7 +10,7 @@ import json
 class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
        # Fetch user details from the request data
-        serializer = AdminSerializer(request.data)
+        serializer = AdminSerializer(data=request.data)
         if serializer.is_valid():
             usr = serializer.save()
 
