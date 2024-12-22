@@ -5,15 +5,23 @@ from .functions import calculate_total, calculate_average, check_subject_grade
 from .serializers import UserSerializer, CommentSerializer, StudentSerializer
 from .models import Student, User, Course, UserProfile
 from rest_framework.permissions import AllowAny, IsAuthenticated
+import json
 
 class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
        # Fetch user details from the request data
-        print(request.data)
-        username = request.data.get('username')
-        email = request.data.get('email')
-        password = request.data.get('password')
-        profile_data = request.data.get('profile', {})
+        print(f'{request.data} here is the data before parsing')
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return Response({"error": "Invalid JSON format."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        print(f'{data} here is the data after parsing')
+
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        profile_data = data.get('profile', {})
 
         if not username or not email or not password:
             return Response(
