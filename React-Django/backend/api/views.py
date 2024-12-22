@@ -9,6 +9,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 class AdminRegistration(APIView):
     def post(self, request, *args, **kwargs):
        # Fetch user details from the request data
+        print(request.data)
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
