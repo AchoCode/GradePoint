@@ -7,9 +7,31 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['phone_number', 'address', 'no_of_students']
 
+class AdminSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer(required=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'username', 'password', 'profile']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        if User.objects.filter(email=validated_data['email']).exists():
+            raise serializers.ValidationError({'error': 'user already exists'})
+
+        profile_data = validated_data.pop('profile', {})
+        password = validated_data.pop('password')
+
+        # Create the User
+        user = User.objects.create_user(**validated_data, password=password)
+
+        # Create or update the UserProfile
+        UserProfile.objects.update_or_create(user=user, defaults=profile_data)
+
+        return user
     
 class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(required=False)
+    profile = UserProfileSerializer()
 
     class Meta:
         model = User
