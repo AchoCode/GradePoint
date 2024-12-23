@@ -19,9 +19,26 @@ export const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const fetchStudents = async (setLoading) => {
+    setLoading(true);
+    try {
+      const response = await api.get("/api/fetch-students");
+
+      if (response.status != 200) {
+        toast.error("error fetching data");
+      } else {
+        setStudentList(response.data.payload.students);
+        toast.success("Student fetch succesful.");
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ loggedIn, setLoggedIn, logout, checkLoginStatus }}
+      value={{ loggedIn, setLoggedIn, logout, checkLoginStatus, fetchStudents }}
     >
       {children}
     </AuthContext.Provider>

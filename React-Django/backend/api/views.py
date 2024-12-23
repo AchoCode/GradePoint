@@ -2,28 +2,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade
-from .serializers import UserSerializer, CommentSerializer, StudentSerializer, AdminSerializer
-from .models import Student, User, Course, UserProfile
+from .serializers import UserSerializer, CommentSerializer, StudentSerializer
+from .models import Student, User, Course
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-
-class AdminRegistration(APIView):
-    def post(self, request, *args, **kwargs):
-       # Fetch user details from the request data
-        serializer = AdminSerializer(data=request.data)
-        if serializer.is_valid():
-            usr = serializer.save()
-            usr.is_staff = True
-            usr.is_superuser = True
-            usr.save()
-            return Response(
-                {'message': 'Superuser and profile created successfully.'},
-                status=status.HTTP_201_CREATED
-            )
-        return Response(serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
 class UserRegistration(APIView):
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
@@ -62,12 +44,13 @@ class CreateStudentView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StudentListAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        permission_classes = [IsAuthenticated]
+    
         #* get authenticated user
         usr = User.objects.filter(username=request.user).first()
         #* get user student list
-        students_list = usr.students.all().values('id','name', 'level', 'reg_no')
+        students_list = usr.students.all().values('id','name', 'level', 'reg_no','average','overall_total')
 
         data_to_send = {
             'students':students_list,
@@ -99,14 +82,19 @@ class BaseCalculationAPI(APIView):
             
             # query for the student
             student_name = request.data.get("studentName", '')
+            print(f'{student_name}, hiiii')
+            
             student_level  = request.data.get("level", '')
             student_usr = Student.objects.filter(name=student_name, level=student_level).first()
+            
 
             if not student_usr:
                 if request.user.is_authenticated:
-                    return Response({'error':'Student not found. Please check the "Manage Students" section.'})
+                    return Response({'error':'Student not found. Please check the "Manage Students" section.'}, 
+                                    status=status.HTTP_400_BAD_REQUEST)
                 
                 #creates student
+
                 student_usr = Student(
                     name = student_name,
                     level = student_level
@@ -118,7 +106,7 @@ class BaseCalculationAPI(APIView):
             subjects = [{'name': key, 'key': key} for key in payload.keys()]
             if not subjects:
                 return Response({'error': 'no subjects found in the payload'}, status=status.HTTP_400_BAD_REQUEST)
-
+            
             # process every subject
             for subject in subjects:
                 test_score = payload.get(subject['name'], {}).get('testScore')
@@ -157,18 +145,11 @@ class BaseCalculationAPI(APIView):
             student_usr.overall_total = overall_total
             student_usr.save()
 
-            students_list = {}
-
-            if request.user.is_authenticated:
-                usr = User.objects.filter(username=request.user).first()
-                students_list = usr.students.filter(level=student_level).values('name', 'average', 'overall_total')
-
             # build json response
             data_to_send = {
                 'AVERAGE': average,
                 'TOTAL SCORE': overall_total,
                 **scores,
-                'students':students_list,
             }
             return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
 
@@ -177,8 +158,6 @@ class BaseCalculationAPI(APIView):
             print('Error in BaseCalculationAPI: %s', str(e))
             return Response({'error': 'An unexpected error occurred'}, status=status.HTTP_400_BAD_REQUEST)
             
-
-
 class NurseryCalculationAPI(BaseCalculationAPI):
     def post(self, request):
         return super().post(request)
@@ -192,10 +171,8 @@ class SecondaryCalculationAPI(BaseCalculationAPI):
 
         # calls the base post method to calculate scores
         base_response = super().post(request)
-
         if base_response.status_code != 200:
             return base_response
-        
         # adds grades for each subject to the payload
         data = base_response.data.get('payload', {})
         scores = {key: value for key,value in data.items() if isinstance(value, dict)}

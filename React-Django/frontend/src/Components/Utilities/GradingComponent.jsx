@@ -1,24 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
 import { toast } from "react-toastify";
 import { Loader } from "./Loader";
 import api from "../../api";
-import { Capitalize } from "../../Constants";
+import { Capitalize, ACCESS_TOKEN } from "../../Constants";
+import { AuthContext } from "./AuthContext";
 
 export const GradingComponent = ({ subjects, activeTab }) => {
   const [studentName, setStudentName] = useState("");
   const [average, setAverage] = useState(0);
   const [gradeTotal, setGradeTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [students, setStudents] = useState({});
+  const [studentList, setStudentList] = useState([]);
 
+  const { loggedIn, checkLoginStatus, logout } = useContext(AuthContext);
+  const token = localStorage.getItem(ACCESS_TOKEN);
+
+  useEffect(() => {
+    checkLoginStatus(token);
+  }, []);
+
+  useEffect(() => {
+    console.log("====================================");
+    console.log(studentName);
+    console.log("====================================");
+  }, [studentName]);
+
+  const studentLevelList = studentList
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .filter((student) => student.level === activeTab);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await api.get("/api/fetch-students");
+
+      if (response.status != 200) {
+        toast.error("error fetching data");
+      } else {
+        setStudentList(response.data.payload.students);
+      }
+    } catch (error) {
+      let errormsg = "Something went wrong. Try again.";
+
+      // Check for API response error
+      if (error.response && error.response.data && error.response.data.detail) {
+        errormsg = error.response.data.detail; // Use server-provided error message
+      } else if (!error.response) {
+        // Handle network or unexpected errors
+        toast.error(errormsg);
+        console.error("Error:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: "",
-        examScore: "",
+        testScore: 50,
+        examScore: 50,
         totalScore: "",
         grade: "",
       };
@@ -47,7 +93,12 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+
     try {
+      if (studentName === "") {
+        return toast.error("Please select a student");
+      }
+
       const dataToSend = Object.fromEntries(
         Object.entries(scores).map(([subject, { testScore, examScore }]) => [
           subject,
@@ -71,11 +122,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
         toast.success("Data fetch complete...");
         setAverage(apiData.payload["AVERAGE"]);
         setGradeTotal(apiData.payload["TOTAL SCORE"]);
-
-        if (apiData.payload.students) {
-          setStudents(apiData.payload.students);
-        }
-
+        fetchStudents();
         // updates total scores from api data
         setScores((preScores) => {
           const updateScores = Object.keys(preScores).reduce((acc, subject) => {
@@ -91,8 +138,22 @@ export const GradingComponent = ({ subjects, activeTab }) => {
         });
       }
     } catch (error) {
-      toast.error("Sorry. An unexpected error occurred.");
-      console.log(error);
+      // Default error message
+      let errormsg = "Something went wrong. Try again.";
+
+      // Check for API response error
+      if (error.response && error.response.data && error.response.data.error) {
+        errormsg = error.response.data.error; // Use server-provided error message
+      } else if (!error.response) {
+        // Handle network or unexpected errors
+        errormsg = "Network error. Please check your internet connection.";
+      }
+
+      // Show error notification
+      toast.error(errormsg);
+
+      // Log the complete error for debugging
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
@@ -126,15 +187,53 @@ export const GradingComponent = ({ subjects, activeTab }) => {
         >
           <div className="cta">
             <div className="active-tab">{activeTab}</div>
-            <InputField
-              label="Enter student name"
-              value={studentName}
-              onChange={(event) => {
-                setStudentName(event.target.value);
-              }}
-              required={true}
-              className="student-name"
-            />
+            <div className="student-name-box">
+              {loggedIn ? (
+                <>
+                  {studentLevelList.length > 0 ? (
+                    <select
+                      value={studentName}
+                      onChange={(event) => {
+                        const selectedValue = event.target.value;
+                        setStudentName(selectedValue);
+                      }}
+                    >
+                      <option value="" disabled>
+                        Select student
+                      </option>
+                      {studentLevelList.map((student, index) => (
+                        <option key={index} value={student.name}>
+                          {student.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <select
+                      value={studentName}
+                      onChange={(event) => {
+                        const selectedValue = event.target.value;
+                        setStudentName(selectedValue);
+                      }}
+                    >
+                      <option value="" disabled>
+                        Select student
+                      </option>
+                    </select>
+                  )}
+                </>
+              ) : (
+                <InputField
+                  label="Enter student name"
+                  value={studentName}
+                  onChange={(event) => {
+                    setStudentName(event.target.value);
+                  }}
+                  required={true}
+                  className="student-name"
+                />
+              )}
+            </div>
+
             <Button title="Clear" handleOnClick={handleClearGradingTable} />
             <Button title="Calculate" type="submit" />
           </div>
@@ -193,8 +292,8 @@ export const GradingComponent = ({ subjects, activeTab }) => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(students) && students.length > 0 ? (
-              students.map((student, index) => (
+            {Array.isArray(studentLevelList) && studentLevelList.length > 0 ? (
+              studentLevelList.map((student, index) => (
                 <tr key={index}>
                   <td>{student.name}</td>
                   <td className="result-score">{student.overall_total}</td>
