@@ -123,6 +123,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Directory for collected static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Optional: Additional directories to search for static files
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # If you have custom static files in a "static" folder
+]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 CORS_ALLOWED_ORIGINS = [

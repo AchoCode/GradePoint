@@ -53,12 +53,13 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password')
 
         # Create the User
-        user = User.objects.create_user(**validated_data, password=password)
+        user = User.objects.create_user(**validated_data, password=password, is_staff=True, is_superuser=True)
 
         # Create or update the UserProfile
         UserProfile.objects.update_or_create(user=user, defaults=profile_data)
 
         return user
+    
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,6 +67,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'usr_email', 'usr_comment']
     def create(self, validated_data):
        return Comments.objects.create(**validated_data)
+    
     
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
