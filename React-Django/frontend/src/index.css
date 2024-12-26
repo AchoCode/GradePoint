@@ -925,9 +925,9 @@ body {
 }
 
 /*
-*=========================
-* MANAGE STUDENT COMPONENT
-*=========================
+*========================================
+* MANAGE STUDENT & SCRATCH CARD COMPONENT
+*========================================
 */
 
 .tab-container {
@@ -935,7 +935,7 @@ body {
   width: 99.5vw;
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
 }
 .student-list-table {
   background-color: white;

@@ -11,6 +11,7 @@ export const InputField = ({
   className,
   parentClass,
   pwdField = false,
+  min,
 }) => {
   const [hidePwd, setHidePwd] = useState(true);
 
@@ -29,6 +30,7 @@ export const InputField = ({
           placeholder={label}
           required={required}
           className={`form-field ${className ? className : ""}`}
+          min={min ? "0" : ""}
         />
         {pwdField &&
           (hidePwd ? (

@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .functions import calculate_total, calculate_average, check_subject_grade
-from .serializers import UserSerializer, CommentSerializer, StudentSerializer
-from .models import Student, User, Course
+from .functions import calculate_total, calculate_average, check_subject_grade, generate_card_no
+from .serializers import UserSerializer, CommentSerializer, StudentSerializer, ScratchCardSerializer
+from .models import Student, User, Course, ScratchCard
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class UserRegistration(APIView):
@@ -35,8 +35,8 @@ class CreateCommentView(APIView):
               )
         
 class CreateStudentView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
-        permission_classes = [IsAuthenticated]
         serializer = StudentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
@@ -70,7 +70,55 @@ class DeleteStudentView(APIView):
         except Exception as e:
             # Catch any other exceptions
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class CreateScratchCardView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        num_cards = request.data.get('number_of_cards', 0)
+
+        # if not isinstance(num_cards, int) and int(num_cards) <= 0 : 
+        #     return Response({"error": "Invalid number of cards"}, status=status.HTTP_400_BAD_REQUEST)
         
+        for _ in range(num_cards):
+            card_no = generate_card_no()
+
+            card_data = {
+                'card_number': card_no
+            }
+
+            serializer = ScratchCardSerializer(data=card_data, context={'request':request})
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': f'{num_cards} created successfully!'}, status=status.HTTP_201_CREATED)
+
+class ScratchCardListAPI(APIView):
+    def get(self, request, *args,**kwargs):
+        usr = User.objects.filter(username=request.user).first()
+
+        usr_cards = usr.cards.all().values('id','card_number','is_valid','valid_period','no_of_times_used')
+
+        data_to_send = {
+            'cards' : usr_cards
+        }
+        return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
+
+class DeleteCardView(APIView):
+    def delete(self, request, card_id):
+        try:
+            # Retrieve the student instance by its ID
+            card = ScratchCard.objects.get(id=card_id)
+            card.delete()  # Perform the deletion
+            return Response({"message": "card deleted successfully"}, status=status.HTTP_200_OK)
+        except card.DoesNotExist:
+            # If the student with the given ID does not exist
+            return Response({"error": "card not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Catch any other exceptions
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class BaseCalculationAPI(APIView):
     def post(self, request):
         permission_classes = [AllowAny]

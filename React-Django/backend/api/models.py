@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import timedelta
+from django.utils.timezone import now
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -44,9 +46,29 @@ class Comments(models.Model):
         return self.usr_email
     
 
-class Scratch_card(models.Model):
+class ScratchCard(models.Model):
     card_number = models.CharField(max_length=100)
     is_valid = models.BooleanField(default=True)
-    
+    card_usr = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='cards', null=True)
+    valid_period = models.DateField()  
+    no_of_times_used = models.IntegerField(default=0)  
+    card_creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cards', null=True)
+
     def __str__(self):
         return self.card_number
+
+    def check_expiry(self):
+        """Check if the card is expired and update is_valid."""
+        if self.valid_period and now().date() > self.valid_period:
+            self.is_valid = False
+            self.save()
+            
+    def get_valid_period(self):
+        """Method to calculate the valid period (7 days from creation)."""
+        return now().date() + timedelta(days=7)
+
+    def save(self, *args, **kwargs):
+        """Override save method to set valid_period automatically."""
+        if not self.valid_period:
+            self.valid_period = self.get_valid_period()
+        super().save(*args, **kwargs)  # Call the original save method

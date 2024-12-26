@@ -6,7 +6,10 @@ from .views import (
     SecondaryCalculationAPI, 
     CreateCommentView,
     StudentListAPI,
-    DeleteStudentView
+    DeleteStudentView,
+    CreateScratchCardView,
+    DeleteCardView,
+    ScratchCardListAPI
     )
 
 urlpatterns = [
@@ -16,6 +19,9 @@ urlpatterns = [
     path('create-comments', CreateCommentView.as_view(), name='comment'),
     path('create-student', CreateStudentView.as_view(), name='student'),
     path('fetch-students', StudentListAPI.as_view(), name='student-list'),
+    path('fetch-cards', ScratchCardListAPI.as_view(), name='card-list'),
+    path('generate-cards', CreateScratchCardView.as_view(), name='create'),
     path('delete-student/<int:student_id>', DeleteStudentView.as_view(), name='delete'),
+    path('delete-card/<int:card_id>', DeleteCardView.as_view(), name='delete'),
 
 ]

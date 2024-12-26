@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile, Comments, Student
+from .models import UserProfile, Comments, Student, ScratchCard
 from datetime import datetime
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password')
 
         # Create the User
-        user = User.objects.create_user(**validated_data, password=password, is_staff=True, is_superuser=True)
+        user = User.objects.create_user(**validated_data, password=password)
 
         # Create or update the UserProfile
         UserProfile.objects.update_or_create(user=user, defaults=profile_data)
@@ -82,3 +82,16 @@ class StudentSerializer(serializers.ModelSerializer):
         student.save()  # Save the student instance with the new registration number
 
         return student
+
+class ScratchCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ScratchCard
+        fields = ['id','card_number']
+
+    def create(self, validated_data):
+        request = self.context['request']
+        validated_data['card_creator'] = request.user
+        scratch_card = super().create(validated_data)
+        scratch_card.save()
+        return scratch_card
+

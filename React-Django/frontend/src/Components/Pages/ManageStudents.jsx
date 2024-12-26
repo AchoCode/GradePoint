@@ -128,7 +128,13 @@ export const ManageStudents = () => {
           <>
             <div className="student-list">
               <table>
-                <thead>
+                <thead
+                  style={{
+                    backgroundColor: "white",
+                    position: "sticky",
+                    top: 0,
+                  }}
+                >
                   <tr>
                     <th>S/N</th>
                     <th>Student name</th>

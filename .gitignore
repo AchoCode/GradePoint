@@ -1,0 +1,20 @@
+# Ignore all .env files in any subdirectory
+**/.env
+
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore logs
+*.log
+
+# Ignore node_modules (for JavaScript projects)
+node_modules/
+
+# Ignore virtual environments
+venv/
+*.env/
+
+
+#ignores database
+**/*.sqlite3

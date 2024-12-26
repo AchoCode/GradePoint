@@ -1,4 +1,4 @@
-import random
+import uuid
 
 #* calculating total score
 def calculate_total(test_score, exam_score):
@@ -25,5 +25,8 @@ def check_subject_grade(subject_total):
         return 'E'
     else:
         return 'F'
-    
 
+#* Generates card serial numbers
+def generate_card_no(prefix='LPMA'):
+        number_part = str(uuid.uuid4()).replace('-','').upper()[:6]
+        return f'{prefix}-{number_part}'
