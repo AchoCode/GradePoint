@@ -6,12 +6,13 @@ export const Loader = ({
   grading,
   color = "white",
   top = 30,
+  text = 'Fetching data'
 }) => {
   return (
     <>
       {grading ? (
         <div className={`loader-container grading ${!loading ? `none` : ``}`}>
-          <p style={{ color: color }}>Fetching data</p>
+          <p style={{ color: color }}>{text}</p>
           <ScaleLoader color={color} loading={loading} />
         </div>
       ) : (

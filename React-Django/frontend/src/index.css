@@ -403,7 +403,7 @@ body {
   text-align: center;
 }
 .active-tab {
-  width: 25%;
+  min-width: 15%;
   font-size: 1rem;
   font-weight: 600;
   padding: 8px 10px;
@@ -979,7 +979,9 @@ body {
   padding: 2px 5px;
   margin-left: 10px;
   font-size: 1rem;
+  font-weight: 600;
   text-align: center;
+  cursor: pointer;
 }
 .student-list {
   height: 100%;
@@ -998,7 +1000,11 @@ body {
   text-transform: uppercase;
   font-weight: 600;
 }
-
+.student-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .student-list .btn-container {
   background-color: red;
   padding: 5px 10px;

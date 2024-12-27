@@ -56,9 +56,9 @@ export const GradingTab = () => {
         )}
         {activeTab == "Settings" && (
           <div>
-            <ProtectedRoute>
+            
               <Settings activeTab={activeTab} />
-            </ProtectedRoute>
+
           </div>
         )}
         {activeTab == "Profile" && (

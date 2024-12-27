@@ -14,18 +14,12 @@ export const GradingComponent = ({ subjects, activeTab }) => {
   const [loading, setLoading] = useState(false);
   const [studentList, setStudentList] = useState([]);
 
-  const { loggedIn, checkLoginStatus, logout } = useContext(AuthContext);
+  const { loggedIn, checkLoginStatus } = useContext(AuthContext);
   const token = localStorage.getItem(ACCESS_TOKEN);
 
   useEffect(() => {
     checkLoginStatus(token);
   }, []);
-
-  useEffect(() => {
-    console.log("====================================");
-    console.log(studentName);
-    console.log("====================================");
-  }, [studentName]);
 
   const studentLevelList = studentList
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -60,11 +54,12 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     fetchStudents();
   }, []);
   // Initialize state as an object with testScore, examScore, and totalScore for each subject
+
   const [scores, setScores] = useState(
     subjects.reduce((acc, subject) => {
       acc[subject] = {
-        testScore: 50,
-        examScore: 50,
+        testScore: "",
+        examScore: "",
         totalScore: "",
         grade: "",
       };
@@ -241,43 +236,60 @@ export const GradingComponent = ({ subjects, activeTab }) => {
           <div className="grades-table">
             <Loader loading={loading} grading />
             <div className={`overlay ${loading ? `active` : ``} `}></div>
-            {subjects.map((subject, index) => (
-              <div className="input-box" key={index}>
-                <h3>{subject}</h3>
-                <InputField
-                  label="Test"
-                  value={scores[subject].testScore}
-                  onChange={(e) =>
-                    handleScores(subject, "testScore", e.target.value)
-                  }
-                  required={true}
-                />
-                <InputField
-                  label="Exam"
-                  value={scores[subject].examScore}
-                  onChange={(e) =>
-                    handleScores(subject, "examScore", e.target.value)
-                  }
-                  required={true}
-                />
-                <InputField
-                  readOnly
-                  label="Total"
-                  value={scores[subject].totalScore}
-                  className="read-only-field"
-                />
-                {activeTab === "Secondary" ? (
-                  <InputField
-                    readOnly
-                    label="Grade"
-                    value={scores[subject].grade}
-                    className="read-only-field"
-                  />
-                ) : (
-                  ""
-                )}
+            {subjects.length > 0 ? (
+              <>
+                {subjects.map((subject, index) => (
+                  <div className="input-box" key={index}>
+                    <h3>{subject?.toUpperCase()}</h3>
+                    <InputField
+                      label="Test"
+                      value={scores[subject]?.testScore}
+                      onChange={(e) =>
+                        handleScores(subject, "testScore", e.target.value)
+                      }
+                      required={true}
+                    />
+                    <InputField
+                      label="Exam"
+                      value={scores[subject]?.examScore}
+                      onChange={(e) =>
+                        handleScores(subject, "examScore", e.target.value)
+                      }
+                      required={true}
+                    />
+                    <InputField
+                      readOnly
+                      label="Total"
+                      value={scores[subject]?.totalScore}
+                      className="read-only-field"
+                    />
+                    {activeTab === "Secondary" ? (
+                      <InputField
+                        readOnly
+                        label="Grade"
+                        value={scores[subject]?.grade}
+                        className="read-only-field"
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "grid",
+                  placeContent: "center",
+                }}
+              >
+                <h3 style={{ color: "green" }}>
+                  Register subjects in the "Settings" section.
+                </h3>
               </div>
-            ))}
+            )}
           </div>
         </form>
       </div>
@@ -292,7 +304,9 @@ export const GradingComponent = ({ subjects, activeTab }) => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(studentLevelList) && studentLevelList.length > 0 ? (
+            {loggedIn &&
+            Array.isArray(studentLevelList) &&
+            studentLevelList.length > 0 ? (
               studentLevelList.map((student, index) => (
                 <tr key={index}>
                   <td>{student.name}</td>

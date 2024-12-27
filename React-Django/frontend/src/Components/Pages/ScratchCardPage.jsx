@@ -84,7 +84,7 @@ export const ScratchCardPage = () => {
     <div className="tab-container">
       <div className="student-list-table">
         {listLoading ? (
-          <Loader loading={listLoading} />
+          <Loader loading={listLoading} grading color="green"/>
         ) : (
           <div className="student-list">
             <table>

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile, Comments, Student, ScratchCard
+from .models import UserProfile, Comments, Student, ScratchCard, CourseSettings
 from datetime import datetime
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -95,3 +95,15 @@ class ScratchCardSerializer(serializers.ModelSerializer):
         scratch_card.save()
         return scratch_card
 
+class CourseSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseSettings
+        fields = ['id','course_name', 'course_level']
+    
+    def create(self, validated_data):
+        request = self.context['request']
+        validated_data['user'] = request.user
+
+        settings = super().create(validated_data)
+        settings.save()
+        return settings

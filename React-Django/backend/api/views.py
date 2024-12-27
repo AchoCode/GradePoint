@@ -2,8 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .functions import calculate_total, calculate_average, check_subject_grade, generate_card_no
-from .serializers import UserSerializer, CommentSerializer, StudentSerializer, ScratchCardSerializer
-from .models import Student, User, Course, ScratchCard
+from .serializers import(
+    UserSerializer,
+    CommentSerializer, 
+    StudentSerializer,
+    ScratchCardSerializer,
+    CourseSettingSerializer,
+    )
+from .models import Student, User, Course, ScratchCard, CourseSettings
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class UserRegistration(APIView):
@@ -118,10 +124,47 @@ class DeleteCardView(APIView):
             # Catch any other exceptions
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class FetchResultAPI(APIView):
+    pass
+
+class CreateUserSettingsView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        serializer = CourseSettingSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Course added successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SettingsListAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        usr = User.objects.filter(username=request.user).first()
+
+        usr_settings = usr.settings.all().values('id','course_name','course_level')
+
+        data_to_send = {
+            'settings' : usr_settings
+        }
+        return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
+
+class DeleteCourseView(APIView):
+    def delete(self, request, course_id):
+        try:
+            # Retrieve the student instance by its ID
+            course = CourseSettings.objects.get(id=course_id)
+            course.delete()  # Perform the deletion
+            return Response({"message": "course deleted successfully"}, status=status.HTTP_200_OK)
+        except course.DoesNotExist:
+            # If the student with the given ID does not exist
+            return Response({"error": "course not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Catch any other exceptions
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class BaseCalculationAPI(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
-        permission_classes = [AllowAny]
 
         try:
             payload = request.data.get('payLoad', '')

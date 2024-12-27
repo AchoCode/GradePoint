@@ -55,7 +55,7 @@ class ScratchCard(models.Model):
     card_creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cards', null=True)
 
     def __str__(self):
-        return self.card_number
+        return f'Card number: {self.card_number}:  Used: {self.no_of_times_used}:  Created by: {self.card_creator}'
 
     def check_expiry(self):
         """Check if the card is expired and update is_valid."""
@@ -72,3 +72,15 @@ class ScratchCard(models.Model):
         if not self.valid_period:
             self.valid_period = self.get_valid_period()
         super().save(*args, **kwargs)  # Call the original save method
+
+class CourseSettings(models.Model):
+    course_name = models.CharField(max_length=100)
+    course_level = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='settings', null=True)
+    
+    class Meta:
+        verbose_name = 'CourseSetting'
+        verbose_name_plural = 'CourseSettings'
+
+    def __str__(self):
+        return f'{self.user} settings: {self.course_name}'
