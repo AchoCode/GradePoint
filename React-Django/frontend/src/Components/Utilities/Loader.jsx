@@ -1,5 +1,5 @@
 import React from "react";
-import { ScaleLoader, PulseLoader } from "react-spinners";
+import { ScaleLoader, PulseLoader, BarLoader } from "react-spinners";
 
 export const Loader = ({
   loading = false,
@@ -17,7 +17,7 @@ export const Loader = ({
         </div>
       ) : (
         <div className="loader-container" style={{ top: `${top}px` }}>
-          <PulseLoader color={color} loading={loading} />
+          <BarLoader color={color} loading={loading} width={500}/>
         </div>
       )}
     </>

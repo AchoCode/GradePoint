@@ -8,20 +8,20 @@ export const ReportSheet = ({ studentData, subjectGrades }) => {
           <h3 className="heading">Student details</h3>
           <div className="name-info">
             <h4>Student name :</h4>
-            <p>{studentData.student}</p>
+            <p>{studentData.name_of_student}</p>
           </div>
           <div className="name-info">
             <h4>Registration Number :</h4>
-            <p>{studentData.regNo}</p>
+            <p>{studentData.reg_number}</p>
           </div>
           <div className="scores">
             <div className="name-info">
               <h4>Average :</h4>
-              <p>{studentData.average}</p>
+              <p>{studentData.Average}</p>
             </div>
             <div className="name-info">
               <h4>Total score :</h4>
-              <p>{studentData.totalScore}</p>
+              <p>{studentData.overall_score}</p>
             </div>
           </div>
         </div>
@@ -38,19 +38,20 @@ export const ReportSheet = ({ studentData, subjectGrades }) => {
               </tr>
             </thead>
             <tbody>
-              {Object.entries(subjectGrades).map((element) => (
+              {subjectGrades.map((element) => (
                 <tr key={element}>
-                  <td style={{ textAlign: "start" }}>{element[0]}</td>
-                  <td>{element[1].testScore}</td>
-                  <td>{element[1].examScore}</td>
-                  <td>{element[1].totalScore}</td> <td>{element[1].grade}</td>
+                  <td style={{ textAlign: "start" }}>{element.subject}</td>
+                  <td>{element.test_score}</td>
+                  <td>{element.exam_score}</td>
+                  <td>{element.total_score}</td>
+                  <td>{element?.grade || '-'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
             
           <div className="card-info">
-            <span>Card use : {studentData.cardUse} of 5 </span>
+            <span>Card use : {studentData.card_usage_count} of 5 </span>
           </div>
         </div>
       </div>

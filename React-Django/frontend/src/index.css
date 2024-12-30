@@ -511,7 +511,7 @@ body {
   gap: 50px;
 }
 .contact-section.responsive {
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   overflow: scroll;
   padding: 30% 10px;
@@ -596,10 +596,6 @@ body {
   place-items: center;
   gap: 20px;
 }
-/* .responsive .contact-links {
-  display: flex;
-  flex-direction: column;
-} */
 .contact-box {
   backdrop-filter: blur(20px);
   width: 250px;
@@ -1005,6 +1001,7 @@ body {
   align-items: center;
   width: 50%;
   gap: 40px;
+  position: relative
 }
 .responsive .placeholder-container {
   width: 100%;

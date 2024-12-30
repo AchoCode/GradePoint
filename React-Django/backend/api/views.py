@@ -125,22 +125,50 @@ class DeleteCardView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class FetchResultAPI(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         reg_no = request.data.get('regNo')
         card_no = request.data.get('cardNo')
 
-        #* check is student exist and card is valid
+        #* check if student exist
         student = Student.objects.filter(reg_no=reg_no).first()
         if not student:
-            return Response({'error': 'Student does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'e_msg': 'Student does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         
-        scratch_card = ScratchCard.objects.filter(card_no=card_no).first()
+        #* check if card exist and is valid
+        scratch_card = ScratchCard.objects.filter(card_number=card_no).first()
         if not scratch_card:
-            return Response({'error': 'Enter valid scratch card no'}, status=status.HTTP_400_BAD_REQUEST)
-        elif scratch_card.is_valid == False:
-            return Response({'error': 'Scratch card is expired'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            results = student.courses.all()        
+            return Response({'e_msg': 'Enter valid scratch card no'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if scratch_card.is_valid == False:
+            return Response({'e_msg': 'Scratch card is expired'}, status=status.HTTP_400_BAD_REQUEST)
+       
+        if scratch_card.card_usr:
+            if scratch_card.card_usr != student:
+                return Response({'e_msg':'Scratch card has been used already by another student'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        ''' update card usage count'''
+        scratch_card.no_of_times_used += 1
+        scratch_card.card_usr = student
+        if scratch_card.no_of_times_used == 5:
+            scratch_card.is_valid = False
+        scratch_card.save()
+
+        try:
+            results = student.courses.all().values('subject', 'test_score', 'exam_score', 'total_score', 'grade') 
+            data_to_send = {
+                'name_of_student': student.name,
+                'Average': student.average,
+                'overall_score' : student.overall_total,
+                'reg_number': student.reg_no, 
+                'card_usage_count': scratch_card.no_of_times_used,
+                'result': results,
+            }
+            return Response({'payload': data_to_send}, status=status.HTTP_200_OK) 
+        except Exception as e:
+            print(e)
+            return Response({'e_msg':'Something went wrong'}, status=status.HTTP_400_BAD_REQUEST)      
 
 class CreateUserSettingsView(APIView):
     permission_classes = [IsAuthenticated]
@@ -233,12 +261,14 @@ class BaseCalculationAPI(APIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
                 
-                Course.objects.create(
+                Course.objects.update_or_create(
                     subject=subject['name'],
-                    test_score = test_score,
-                    exam_score =  exam_score,
-                    total_score = total_score,
-                    student_user = student_usr
+                    student_user = student_usr,
+                    defaults={
+                    'test_score' :test_score,
+                    'exam_score' : exam_score,
+                    'total_score': total_score,
+                    }
                 )
 
                 scores[subject['key']] = {'totalScore': total_score}

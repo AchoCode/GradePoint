@@ -48,7 +48,7 @@ export const LoginAuth = () => {
   return (
     <div className="auth-page-wrapper">
       <div className="auth-container">
-        <Loader loading={loading} />
+        <Loader loading={loading} top={0}/>
         <div className="heading login">
           <FaUser />
           <h1>Login</h1>

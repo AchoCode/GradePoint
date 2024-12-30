@@ -12,7 +12,8 @@ from .views import (
     ScratchCardListAPI,
     CreateUserSettingsView,
     DeleteCourseView,
-    SettingsListAPI
+    SettingsListAPI,
+    FetchResultAPI
     )
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
     path('create-comments', CreateCommentView.as_view(), name='comment'),
     path('create-student', CreateStudentView.as_view(), name='student'),
     path('fetch-students', StudentListAPI.as_view(), name='student-list'),
+    path('result', FetchResultAPI.as_view(), name='result'),
     path('fetch-cards', ScratchCardListAPI.as_view(), name='card-list'),
     path('generate-cards', CreateScratchCardView.as_view(), name='create'),
     path('settings', SettingsListAPI.as_view(), name='settings'),

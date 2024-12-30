@@ -104,7 +104,11 @@ class CourseSettingSerializer(serializers.ModelSerializer):
         request = self.context['request']
         validated_data['user'] = request.user
 
-        settings = super().create(validated_data)
-        settings.save()
+        settings, created = CourseSettings.objects.update_or_create(
+            course_name=validated_data['course_name'],
+            user=validated_data['user'],
+            course_level= validated_data['course_level'],  # Matching condition
+            defaults={}
+        )
         return settings
     
