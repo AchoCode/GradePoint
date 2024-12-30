@@ -3,6 +3,8 @@ import { InputField } from "../Utilities/InputField";
 import { Button } from "../Utilities/Button";
 import { ReportSheet } from "../Utilities/ReportSheet";
 import PlaceholderImg from "../../assets/Static/placeholder.png";
+import { useResponsive } from "../../useResponsive";
+
 export const CheckResult = () => {
   // const [studentData, setStudentData] = useState({});
   const [liveResult, setLiveResult] = useState(false);
@@ -120,6 +122,8 @@ export const CheckResult = () => {
   ];
 
   const subjectGrades = studentData.subjects;
+  
+  const breakpoints = useResponsive([600, 900, 1200]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -127,10 +131,9 @@ export const CheckResult = () => {
   };
 
   return (
-    <div className="results-section">
+    <div className={`results-section ${breakpoints === 0 && "responsive"}`}>
       <div className="scratch-card-box">
         <div className="text-info">
-          <h3>Guidelines</h3>
           <ul>
             {guidelines.map((guideline) => (
               <li key={guideline}>{guideline}</li>
@@ -138,6 +141,7 @@ export const CheckResult = () => {
           </ul>
         </div>
         <form onSubmit={handleSubmit}>
+          <h4>Enter student and card details</h4>
           <InputField type="text" label="Scratch card number" />
           <InputField type="text" label="Student registration number" />
           <Button type="submit" title="Check result" />
@@ -145,7 +149,7 @@ export const CheckResult = () => {
       </div>
       {!liveResult ? (
         <div className='placeholder-container'>
-          <img src={PlaceholderImg} className="placeholder-img" alt="image" />
+          <img src={PlaceholderImg} className="placeholder-img" alt="image" loading="lazy" />
           <div className="text">
             <h4>No data available</h4>
             <p>Results will be shown when student data is fetched</p>
@@ -157,6 +161,7 @@ export const CheckResult = () => {
             studentData={studentData}
             subjectGrades={subjectGrades}
           />
+
         </>
       )}
     </div>

@@ -12,13 +12,15 @@ import {
 import { Button } from "../Utilities/Button";
 import { InputField } from "../Utilities/InputField";
 import api from "../../api";
-import { PulseLoader } from "react-spinners";
+import { BarLoader, PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { useResponsive } from "../../useResponsive";
 
 export const ContactUs = () => {
   const [usrEmail, setUsrEmail] = useState("");
   const [usrComment, setUsrComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const breakpoints = useResponsive([600, 900, 1200]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +55,7 @@ export const ContactUs = () => {
   };
 
   return (
-    <div className="contact-section">
+    <div className={`contact-section ${breakpoints === 0 && "responsive"}`}>
       <div className="contact-form-text">
         <div className="contact-text">
           <span>Get in touch</span>
@@ -68,9 +70,12 @@ export const ContactUs = () => {
           </p>
         </div>
         <div className="contact-form">
-          <PulseLoader loading={loading} color="green" />
           <h4>Leave a comment</h4>
           <form onSubmit={handleOnSubmit}>
+            <BarLoader
+              loading={loading}
+              color="green"
+              width={breakpoints === 0 && "100%"|| '55%'}          />
             <InputField
               label="Enter email address"
               type="email"
@@ -91,7 +96,7 @@ export const ContactUs = () => {
             <FaWhatsapp />
           </div>
           <div className="text">
-            <h5>Chat our support</h5>
+            <h5>Chat us</h5>
             <p>We are here to help</p>
           </div>
           <a href="#">Chat on Whatsapp</a>
@@ -125,7 +130,7 @@ export const ContactUs = () => {
           </div>
           <div className="text">
             <h5>Social media</h5>
-            <p>Connect with us</p>
+            <p>Connect with us on social media</p>
           </div>
           <div className="social-links">
             <a href="#">

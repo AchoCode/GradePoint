@@ -14,9 +14,15 @@ export const ReportSheet = ({ studentData, subjectGrades }) => {
             <h4>Registration Number :</h4>
             <p>{studentData.regNo}</p>
           </div>
-          <div className="name-info">
-            <h4>School :</h4>
-            <p>{studentData.school}</p>
+          <div className="scores">
+            <div className="name-info">
+              <h4>Average :</h4>
+              <p>{studentData.average}</p>
+            </div>
+            <div className="name-info">
+              <h4>Total score :</h4>
+              <p>{studentData.totalScore}</p>
+            </div>
           </div>
         </div>
         <div className="grade-information">
@@ -34,25 +40,15 @@ export const ReportSheet = ({ studentData, subjectGrades }) => {
             <tbody>
               {Object.entries(subjectGrades).map((element) => (
                 <tr key={element}>
-                  <td>{element[0]}</td> <td>{element[1].testScore}</td>
+                  <td style={{ textAlign: "start" }}>{element[0]}</td>
+                  <td>{element[1].testScore}</td>
                   <td>{element[1].examScore}</td>
                   <td>{element[1].totalScore}</td> <td>{element[1].grade}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="other-info">
-            <div className="scores">
-              <div>
-                <label htmlFor="">Overall total</label>
-                <span>{studentData.totalScore}</span>
-              </div>
-              <div>
-                <label htmlFor="">Average</label>
-                <span>{studentData.average}</span>
-              </div>
-            </div>
-          </div>
+            
           <div className="card-info">
             <span>Card use : {studentData.cardUse} of 5 </span>
           </div>

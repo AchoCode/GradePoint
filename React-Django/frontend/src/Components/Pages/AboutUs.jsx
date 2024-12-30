@@ -1,8 +1,11 @@
 import React from "react";
+import { useResponsive } from "../../useResponsive";
 
 export const AboutUs = () => {
+    const breakpoints = useResponsive([600, 900, 1200]);
+  
   return (
-    <div className="contact-section">
+    <div className={`contact-section ${breakpoints === 0 && "responsive"}`}>
       <div className="overview">
         <h2>About GradePoint</h2>
         <p className="overview-text">
