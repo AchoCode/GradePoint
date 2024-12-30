@@ -26,27 +26,33 @@ export const GradingComponent = ({ subjects, activeTab }) => {
     .filter((student) => student.level === activeTab);
 
   const fetchStudents = async () => {
-    try {
-      const response = await api.get("/api/fetch-students");
+    if (loggedIn) {
+      try {
+        const response = await api.get("/api/fetch-students");
 
-      if (response.status != 200) {
-        toast.error("error fetching data");
-      } else {
-        setStudentList(response.data.payload.students);
-      }
-    } catch (error) {
-      let errormsg = "Something went wrong. Try again.";
+        if (response.status != 200) {
+          toast.error("error fetching data");
+        } else {
+          setStudentList(response.data.payload.students);
+        }
+      } catch (error) {
+        let errormsg = "Something went wrong. Try again.";
 
-      // Check for API response error
-      if (error.response && error.response.data && error.response.data.detail) {
-        errormsg = error.response.data.detail; // Use server-provided error message
-      } else if (!error.response) {
-        // Handle network or unexpected errors
-        toast.error(errormsg);
-        console.error("Error:", error);
+        // Check for API response error
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.detail
+        ) {
+          errormsg = error.response.data.detail; // Use server-provided error message
+        } else if (!error.response) {
+          // Handle network or unexpected errors
+          toast.error(errormsg);
+          console.error("Error:", error);
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
     }
   };
 

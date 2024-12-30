@@ -4,10 +4,14 @@ import { Button } from "../Utilities/Button";
 import { ReportSheet } from "../Utilities/ReportSheet";
 import PlaceholderImg from "../../assets/Static/placeholder.png";
 import { useResponsive } from "../../useResponsive";
+import { toast } from "react-toastify";
+import api from "../../api";
 
 export const CheckResult = () => {
   // const [studentData, setStudentData] = useState({});
   const [liveResult, setLiveResult] = useState(false);
+  const [regNo, setRegNo] = useState("");
+  const [cardNo, setcardNo] = useState("");
 
   const studentData = {
     student: "Mike ejiaha",
@@ -122,12 +126,30 @@ export const CheckResult = () => {
   ];
 
   const subjectGrades = studentData.subjects;
-  
+
   const breakpoints = useResponsive([600, 900, 1200]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    alert("pressed it");
+    if (!regNo || !cardNo) {
+      return toast.error("Sorry. Can not process empty fields");
+    }
+    try {
+      const response = await api.post("/api/result", {
+        regNo: regNo,
+        cardNo: cardNo,
+      });
+
+      if (response.status != 200) {
+        toast.error("something went wrong!");
+      } else {
+        const apiData = response.data;
+
+        toast.success("Student result fetched successfully");
+      }
+    } catch (error) {
+    } finally {
+    }
   };
 
   return (
@@ -148,8 +170,13 @@ export const CheckResult = () => {
         </form>
       </div>
       {!liveResult ? (
-        <div className='placeholder-container'>
-          <img src={PlaceholderImg} className="placeholder-img" alt="image" loading="lazy" />
+        <div className="placeholder-container">
+          <img
+            src={PlaceholderImg}
+            className="placeholder-img"
+            alt="image"
+            loading="lazy"
+          />
           <div className="text">
             <h4>No data available</h4>
             <p>Results will be shown when student data is fetched</p>
@@ -161,7 +188,6 @@ export const CheckResult = () => {
             studentData={studentData}
             subjectGrades={subjectGrades}
           />
-
         </>
       )}
     </div>

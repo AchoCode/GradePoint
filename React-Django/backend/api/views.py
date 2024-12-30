@@ -125,7 +125,22 @@ class DeleteCardView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class FetchResultAPI(APIView):
-    pass
+    def post(self, request, *args, **kwargs):
+        reg_no = request.data.get('regNo')
+        card_no = request.data.get('cardNo')
+
+        #* check is student exist and card is valid
+        student = Student.objects.filter(reg_no=reg_no).first()
+        if not student:
+            return Response({'error': 'Student does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        scratch_card = ScratchCard.objects.filter(card_no=card_no).first()
+        if not scratch_card:
+            return Response({'error': 'Enter valid scratch card no'}, status=status.HTTP_400_BAD_REQUEST)
+        elif scratch_card.is_valid == False:
+            return Response({'error': 'Scratch card is expired'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            results = student.courses.all()        
 
 class CreateUserSettingsView(APIView):
     permission_classes = [IsAuthenticated]
