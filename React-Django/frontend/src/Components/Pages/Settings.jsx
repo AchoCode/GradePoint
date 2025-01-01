@@ -202,9 +202,9 @@ export const Settings = () => {
 
       <div className="form-section">
         <div className="update-form">
+            <Loader loading={formLoading} top={0} color='green' />
           <div className="heading">
             <h3>New Subject</h3>
-            <Loader loading={formLoading} top={10} />
           </div>
           <form onSubmit={handleSubmit}>
             <div className="input-box">

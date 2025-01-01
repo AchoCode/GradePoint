@@ -84,7 +84,7 @@ export const ScratchCardPage = () => {
     <div className="tab-container">
       <div className="student-list-table">
         {listLoading ? (
-          <Loader loading={listLoading} grading color="green"/>
+          <Loader loading={listLoading} grading color="green" />
         ) : (
           <div className="student-list">
             <table>
@@ -145,27 +145,31 @@ export const ScratchCardPage = () => {
       </div>
       <div className="form-section">
         <div className="update-form">
+          <Loader loading={formLoading} top={10} />
           <div className="heading">
             <h3>Guidelines</h3>
-            <Loader loading={formLoading} top={10} />
           </div>
-          <p style={{ fontSize: "1.2rem", fontWeight: 600, margin: "10px" }}>
-            Each scratch card has a valid period of 7 days from the day of
-            creation. Each card can be used 5 times by a student. After which
-            the card should be deleted.
-          </p>
+          <div className="input-box">
+            <p style={{ fontSize: "1.2rem", fontWeight: 600, margin: "10px" }}>
+              Each scratch card has a valid period of 7 days from the day of
+              creation. Each card can be used 5 times by a student. After which
+              the card should be deleted.
+            </p>
+          </div>
           <div className="heading">
             <h3>Generate scratch cards</h3>
           </div>
-          <label>
-            Number of cards
-            <InputField
-              type="number"
-              value={noOfCards}
-              onChange={(e) => setNoOfCards(e.target.value)}
-              min
-            />
-          </label>
+          <div className="input-box">
+            <label>
+              Number of cards
+              <InputField
+                type="number"
+                value={noOfCards}
+                onChange={(e) => setNoOfCards(e.target.value)}
+                min
+              />
+            </label>
+          </div>
           <Button
             title="Generate"
             type="submit"

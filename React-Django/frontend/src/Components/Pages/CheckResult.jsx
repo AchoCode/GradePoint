@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { InputField } from "../Utilities/InputField";
 import { Button } from "../Utilities/Button";
 import { ReportSheet } from "../Utilities/ReportSheet";
@@ -9,9 +9,8 @@ import api from "../../api";
 import { Loader } from "../Utilities/Loader";
 
 export const CheckResult = () => {
-  // const [studentData, setStudentData] = useState({});
   const [liveResult, setLiveResult] = useState(false);
-  const [regNo, setRegNo] = useState("LPMA/2024/0018");
+  const [regNo, setRegNo] = useState("");
   const [cardNo, setcardNo] = useState("");
   const [studentData, setStudentData] = useState([]);
   const [subjectGrades, setSubjectGrades] = useState([]);
@@ -24,9 +23,11 @@ export const CheckResult = () => {
   ];
 
   const breakpoints = useResponsive([600, 900, 1200]);
+  const reportSheetRef = useRef(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+   
     setResultLoading(true);
     if (!regNo || !cardNo) {
       return toast.error("Sorry. Can not process empty fields");
@@ -41,12 +42,15 @@ export const CheckResult = () => {
         toast.error(response.data.e_msg);
       } else {
         const apiData = response.data;
-        console.log(apiData);
 
         setStudentData(apiData.payload);
         setSubjectGrades(apiData.payload.result);
         setLiveResult(true);
         toast.success("Student result fetched successfully");
+
+        if (breakpoints == 0 && reportSheetRef.current) {
+          reportSheetRef.current.scrollIntoView({ behavior: "smooth" });
+        }
       }
     } catch (error) {
       let errorMsg = "Sorry. Something went wrong.";
@@ -108,12 +112,19 @@ export const CheckResult = () => {
           )}
         </div>
       ) : (
-        <>
+        <div
+          style={
+            breakpoints == 0
+              ? { width: "100%", padding: "0 15px" }
+              : { width: "50%" }
+          }
+          ref={reportSheetRef}
+        >
           <ReportSheet
             studentData={studentData}
             subjectGrades={subjectGrades}
           />
-        </>
+        </div>
       )}
     </div>
   );

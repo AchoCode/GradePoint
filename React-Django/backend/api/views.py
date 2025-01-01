@@ -216,7 +216,6 @@ class BaseCalculationAPI(APIView):
             
             # query for the student
             student_name = request.data.get("studentName", '')
-            print(f'{student_name}, hiiii')
             
             student_level  = request.data.get("level", '')
             student_usr = Student.objects.filter(name=student_name, level=student_level).first()
@@ -316,7 +315,13 @@ class SecondaryCalculationAPI(BaseCalculationAPI):
         for subject, details in scores.items():
             if 'totalScore' in details:
                 total_score = details['totalScore']
-                details['grade'] = check_subject_grade(total_score)
+                grade = check_subject_grade(total_score)
+                details['grade'] = grade
+
+                Course.objects.filter(
+                    subject=subject,
+                    student_user=Student.objects.get(name=request.data.get("studentName"), level=request.data.get("level"))
+                ).update(grade=grade)
 
         return Response({'payload': data}, status=status.HTTP_200_OK)
         
