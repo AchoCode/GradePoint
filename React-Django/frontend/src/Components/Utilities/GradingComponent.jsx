@@ -199,7 +199,7 @@ export const GradingComponent = ({ subjects, activeTab }) => {
                         setStudentName(selectedValue);
                       }}
                     >
-                      <option value="" disabled>
+                      <option value="All">
                         Select student
                       </option>
                       {studentLevelList.map((student, index) => (
