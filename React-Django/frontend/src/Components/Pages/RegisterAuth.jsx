@@ -17,7 +17,7 @@ export const RegisterAuth = () => {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [notValid, setNotValid] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ export const RegisterAuth = () => {
   return (
     <div className="auth-page-wrapper">
       <div className="auth-container">
-        <Loader loading={loading} />
+        <Loader loading={loading} top={2}/>
         <div className="heading">
           <FaUser />
           <h1>Register</h1>

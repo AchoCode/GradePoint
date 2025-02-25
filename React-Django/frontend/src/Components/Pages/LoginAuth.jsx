@@ -12,7 +12,7 @@ import { AuthContext } from "../Utilities/AuthContext";
 export const LoginAuth = () => {
   const [usrName, setUsrName] = useState("");
   const [usrPassword, setUsrPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(AuthContext);
 
@@ -48,7 +48,7 @@ export const LoginAuth = () => {
   return (
     <div className="auth-page-wrapper">
       <div className="auth-container">
-        <Loader loading={loading} top={0}/>
+        <Loader loading={loading} top={2}/>
         <div className="heading login">
           <FaUser />
           <h1>Login</h1>
