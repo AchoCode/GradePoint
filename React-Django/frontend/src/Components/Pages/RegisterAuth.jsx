@@ -17,7 +17,7 @@ export const RegisterAuth = () => {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [notValid, setNotValid] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 

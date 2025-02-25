@@ -12,7 +12,7 @@ import { AuthContext } from "../Utilities/AuthContext";
 export const LoginAuth = () => {
   const [usrName, setUsrName] = useState("");
   const [usrPassword, setUsrPassword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(AuthContext);
 
