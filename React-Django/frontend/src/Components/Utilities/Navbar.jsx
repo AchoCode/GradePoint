@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo/gpLogoWhite.png";
+import Logo from "../../assets/Static/placeholder.png";
 import { Button } from "./Button";
 import { AuthContext } from "./AuthContext";
 import { ACCESS_TOKEN } from "../../Constants";
