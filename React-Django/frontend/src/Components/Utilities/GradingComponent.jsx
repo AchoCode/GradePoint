@@ -4,7 +4,7 @@ import { Button } from "./Button";
 import { toast } from "react-toastify";
 import { Loader } from "./Loader";
 import api from "../../api";
-import { Capitalize, ACCESS_TOKEN } from "../../constants";
+import { Capitalize, ACCESS_TOKEN } from "../../Constants";
 import { AuthContext } from "./AuthContext";
 
 export const GradingComponent = ({ subjects, activeTab }) => {

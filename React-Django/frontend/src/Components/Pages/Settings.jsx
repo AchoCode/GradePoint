@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa6";
 import { AuthContext } from "../Utilities/AuthContext";
 import api from "../../api";
 import { toast } from "react-toastify";
-import { Capitalize } from "../../constants";
+import { Capitalize } from "../../Constants";
 import "../../styles/settings.css";
 
 export const Settings = () => {
