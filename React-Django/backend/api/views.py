@@ -7,7 +7,7 @@ from .serializers import(
     CommentSerializer, 
     StudentSerializer,
     ScratchCardSerializer,
-    CourseSettingSerializer,
+    # CourseSettingSerializer,
     )
 from .models import Student, User, Course, ScratchCard, CourseSettings
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -173,12 +173,28 @@ class FetchResultAPI(APIView):
 class CreateUserSettingsView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
-        serializer = CourseSettingSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Course added successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        try:
+            courses = request.data.get('courses', [])
+            custom_subject = request.data.get('custom_subject', [])
+            for course in courses:
+                settings, created = CourseSettings.objects.update_or_create(
+                    course_name=course['subject'],
+                    user=request.user,
+                    course_level= request.data.get('course_level'), 
+                    defaults={}
+                )
+            if custom_subject:
+                settings, created = CourseSettings.objects.update_or_create(
+                    course_name=custom_subject,
+                    user=request.user,
+                    course_level= request.data.get('course_level'),  
+                    defaults={}
+                )
+            return Response({'msg': 'success'},status=status.HTTP_201_CREATED )
+        except Exception as e:
+            print(e)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 class SettingsListAPI(APIView):
     def get(self, request, *args, **kwargs):
         usr = User.objects.filter(username=request.user).first()
@@ -274,7 +290,7 @@ class BaseCalculationAPI(APIView):
 
             # calculating average and overall total
             average, overall_total = calculate_average(*[score['totalScore'] for score in scores.values()])
-
+            print(average)
             # update student usr model
             student_usr.average = average
             student_usr.overall_total = overall_total
@@ -286,6 +302,7 @@ class BaseCalculationAPI(APIView):
                 'TOTAL SCORE': overall_total,
                 **scores,
             }
+            print(data_to_send)
             return Response({'payload': data_to_send}, status=status.HTTP_200_OK)
 
         except Exception as e:

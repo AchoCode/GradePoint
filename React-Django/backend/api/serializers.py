@@ -95,20 +95,22 @@ class ScratchCardSerializer(serializers.ModelSerializer):
         scratch_card.save()
         return scratch_card
 
-class CourseSettingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CourseSettings
-        fields = ['id','course_name', 'course_level']
+# class CourseSettingSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CourseSettings
+#         fields = ['id','course_name', 'course_level']
     
-    def create(self, validated_data):
-        request = self.context['request']
-        validated_data['user'] = request.user
-
-        settings, created = CourseSettings.objects.update_or_create(
-            course_name=validated_data['course_name'],
-            user=validated_data['user'],
-            course_level= validated_data['course_level'],  # Matching condition
-            defaults={}
-        )
-        return settings
+#     def create(self, validated_data):
+#         request = self.context['request']
+#         validated_data['user'] = request.user
+#         courses = self.initial_data.get('courses', [])
+        
+#         for course in courses:
+#             settings, created = CourseSettings.objects.update_or_create(
+#                 course_name=course['subject'],
+#                 user=validated_data['user'],
+#                 course_level= validated_data['course_level'],  # Matching condition
+#                 defaults={}
+#             )
+#         return settings
     

@@ -7,23 +7,16 @@ import { FaTrash } from "react-icons/fa6";
 import { AuthContext } from "../Utilities/AuthContext";
 import api from "../../api";
 import { toast } from "react-toastify";
-import { Capitalize } from "../../Constants";
+import { Capitalize } from "../../constants";
+import "../../styles/settings.css";
 
 export const Settings = () => {
-  const [filter, setFilter] = useState("Nursery");
-  const [formLoading, setFormLoading] = useState(false);
-  const [level, setLevel] = useState(null);
-  const [name, setName] = useState("");
-  const [btnLoading, setBtnLoading] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const { loggedIn } = useContext(AuthContext);
-
+  // function to fetch user subject settings
   const fetchSettings = async () => {
     let response;
     if (loggedIn) {
       try {
         response = await api.get("/api/settings");
-        console.log(response);
 
         if (response.status != 200) {
           toast.error("something went wrong");
@@ -38,11 +31,60 @@ export const Settings = () => {
       setCourses(response);
     }
   };
+
+  //loads settings on render
   useEffect(() => {
     fetchSettings();
   }, []);
 
-  // * filters student list
+  //state variables
+  const [filter, setFilter] = useState("Nursery");
+  const [formLoading, setFormLoading] = useState(false);
+  const [level, setLevel] = useState(null);
+  const [customSubject, setCustomSubject] = useState("");
+  const [btnLoading, setBtnLoading] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const { loggedIn } = useContext(AuthContext);
+
+  // multichoice subjects
+  const [subjects, setSubjects] = useState([
+    { subject: "Mathematics", checked: true },
+    { subject: "English language", checked: true },
+    { subject: "Igbo language", checked: true },
+    { subject: "Civic education", checked: true },
+    { subject: "Cultural and creative arts", checked: true },
+    { subject: "Christian religious studies", checked: true },
+    { subject: "Computer", checked: true },
+    { subject: "Agricultral science", checked: true },
+    { subject: "Home economics", checked: true },
+    { subject: "Basic science", checked: false },
+    { subject: "Physical and health education", checked: false },
+    { subject: "Basic technology", checked: false },
+    { subject: "Chemistry", checked: false },
+    { subject: "Biology", checked: false },
+    { subject: "Physics", checked: false },
+    { subject: "Social studies", checked: false },
+    { subject: "Health habits", checked: false },
+    { subject: "Social habits", checked: false },
+    { subject: "Rhymes", checked: false },
+    { subject: "Writing", checked: false },
+    { subject: "Government", checked: false },
+    { subject: "Business studies", checked: false },
+    { subject: "Literature", checked: false },
+    { subject: "Commerce", checked: false },
+  ]);
+
+  // handles checking of a subject
+  const handleCheckboxChange = (index) => {
+    setSubjects((prevSubjects) =>
+      prevSubjects.map((subject, i) =>
+        i === index ? { ...subject, checked: !subject.checked } : subject
+      )
+    );
+  };
+  const courseData = subjects.filter((subject) => subject.checked);
+
+  //filters student list
   const filteredList = courses
     .sort((a, b) => a.course_name.localeCompare(b.course_name)) // Sort by name, or modify to any sorting logic
     .filter((course) => filter === course.course_level);
@@ -79,56 +121,58 @@ export const Settings = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormLoading(true);
-    if (!level || !name) {
-      toast.error("Cannot process empty fields");
+    if ((courseData.length === 0 && customSubject === "")) {
       setFormLoading(false);
+      return toast.error("Cannot process empty fields");
+    }
+    if (!level) {
+      setFormLoading(false);
+      return toast.error("Please select a level ");
+    }
+
+    if (loggedIn) {
+      try {
+        const response = await api.post("/api/add-settings", {
+          courses: courseData,
+          course_level: Capitalize(level),
+          custom_subject: customSubject || false,
+        });
+        if (response.status == 201) {
+          toast.success("Subject added successfully");
+          setLevel(null);
+        } else {
+          toast.error(response.data.error[0]);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.error[0]);
+      } finally {
+        setFormLoading(false);
+        fetchSettings();
+      }
     } else {
-      if (loggedIn) {
-        try {
-          const response = await api.post("/api/add-settings", {
+      const oldSubjects = JSON.parse(localStorage.getItem("settings")) || [];
+      const filterSubject = oldSubjects.filter(
+        (subject) =>
+          subject.course_name == Capitalize(name) &&
+          subject.course_level == Capitalize(level)
+      );
+      if (filterSubject.length > 0) {
+        toast.error("Cant have duplicate subjects in a level");
+        setFormLoading(false);
+      } else {
+        const newSubjects = [
+          ...oldSubjects,
+          {
+            id: Date.now(),
             course_name: Capitalize(name),
             course_level: Capitalize(level),
-          });
-          if (response.status == 201) {
-            toast.success("Subject added successfully");
-            setName("");
-            setLevel(null);
-          } else {
-            toast.error(response.data.error[0]);
-          }
-        } catch (error) {
-          console.log(error);
-          toast.error(error.response.data.error[0]);
-        } finally {
-          setFormLoading(false);
-          fetchSettings();
-        }
-      } else {
-        const oldSubjects = JSON.parse(localStorage.getItem("settings")) || [];
-        const filterSubject = oldSubjects.filter(
-          (subject) =>
-            subject.course_name == Capitalize(name) &&
-            subject.course_level == Capitalize(level)
-        );
-        console.log(filterSubject);
-
-        if (filterSubject.length > 0) {
-          toast.error("Cant have duplicate subjects in a level");
-          setFormLoading(false);
-        } else {
-          const newSubjects = [
-            ...oldSubjects,
-            {
-              id: Date.now(),
-              course_name: Capitalize(name),
-              course_level: Capitalize(level),
-            },
-          ];
-          localStorage.setItem("settings", JSON.stringify(newSubjects));
-          setFormLoading(false);
-          toast.success("Subject added successfully");
-          fetchSettings();
-        }
+          },
+        ];
+        localStorage.setItem("settings", JSON.stringify(newSubjects));
+        setFormLoading(false);
+        toast.success("Subject added successfully");
+        fetchSettings();
       }
     }
   };
@@ -151,6 +195,7 @@ export const Settings = () => {
             </select>
           </div>
         </div>
+
         <div className="student-list">
           <table>
             <thead>
@@ -202,55 +247,69 @@ export const Settings = () => {
 
       <div className="form-section">
         <div className="update-form">
-            <Loader loading={formLoading} top={0} color='green' />
-          <div className="heading">
-            <h3>New Subject</h3>
-          </div>
+          <Loader loading={formLoading} top={0} color="green" />
+
+          <h3 className="heading-label">Choose Subjects</h3>
           <form onSubmit={handleSubmit}>
-            <div className="input-box">
-              <label>
-                Name of Subject
-                <InputField
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </label>
+            <div className="multi-choice-container">
+              {subjects.map((subject, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    checked={subject.checked}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  {subject.subject}
+                </label>
+              ))}
             </div>
-            <div className="radio-btn-box">
+            <div className="custom-box">
               <div className="heading">
-                <h3>Select level</h3>
+                <h3>Add custom subject</h3>
               </div>
-              <div className="radio-btn">
+              <div className="input-box">
                 <label>
-                  <input
-                    type="radio"
-                    value="Nursery"
-                    checked={level === "Nursery"}
-                    onChange={(e) => setLevel(e.target.value)}
+                  Name of Subject
+                  <InputField
+                    value={customSubject}
+                    onChange={(e) => setCustomSubject(e.target.value)}
                   />
-                  Nursery
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="Primary"
-                    checked={level === "Primary"}
-                    onChange={(e) => setLevel(e.target.value)}
-                  />
-                  Primary
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="Secondary"
-                    checked={level === "Secondary"}
-                    onChange={(e) => setLevel(e.target.value)}
-                  />
-                  Secondary
                 </label>
               </div>
+              <div className="radio-btn-box">
+                <span>Select Level</span>
+                <div className="radio-btn">
+                  <label>
+                    <input
+                      type="radio"
+                      value="Nursery"
+                      checked={level === "Nursery"}
+                      onChange={(e) => setLevel(e.target.value)}
+                    />
+                    Nursery
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      value="Primary"
+                      checked={level === "Primary"}
+                      onChange={(e) => setLevel(e.target.value)}
+                    />
+                    Primary
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      value="Secondary"
+                      checked={level === "Secondary"}
+                      onChange={(e) => setLevel(e.target.value)}
+                    />
+                    Secondary
+                  </label>
+                </div>
+              </div>
+              <Button title="Add subject" type="submit" />
             </div>
-            <Button title="Add subject" type="submit" />
           </form>
         </div>
       </div>

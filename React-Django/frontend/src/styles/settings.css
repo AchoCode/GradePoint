@@ -1,0 +1,42 @@
+.multi-choice-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  column-gap: 20px;
+  padding: 20px;
+  background-color: transparent;
+  color: white;
+}
+.multi-choice-container label {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+.custom-box {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+}
+.custom-box label {
+  color: black;
+}
+.radio-btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.radio-btn-box span {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.radio-btn-box .radio-btn {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.heading-label {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}

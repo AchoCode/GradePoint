@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Static/placeholder.png";
+import Logo from "../../assets/Logo/LPMA log2.png";
 import { Button } from "./Button";
 import { AuthContext } from "./AuthContext";
 import { ACCESS_TOKEN } from "../../Constants";
@@ -18,7 +18,9 @@ export const Navbar = ({ login }) => {
 
   return (
     <div className={`nav-container ${breakpoints === 0 && "responsive"}`}>
-      <img src={Logo} alt="logo" className="logo" />
+      <Link to="/">
+        <img src={Logo} alt="logo" className="logo" href="/" />
+      </Link>
 
       <ul className={`${breakpoints === 0 && "responsive"}`}>
         <li className="navlinks">
