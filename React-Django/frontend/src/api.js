@@ -1,7 +1,7 @@
 import axios from "axios";
-import { ACCESS_TOKEN , REFRESH_TOKEN} from "./Constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Constants";
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://gradepoint-ymc7.onrender.com",
 });
 api.interceptors.request.use(
   (config) => {
@@ -24,9 +24,12 @@ const refreshToken = async () => {
   }
 
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/token/refresh/", {
-      refresh: RFToken,
-    });
+    const response = await axios.post(
+      "hhttps://gradepoint-ymc7.onrender.com/api/token/refresh/",
+      {
+        refresh: RFToken,
+      }
+    );
 
     if (response.status === 200) {
       const newAccessToken = response.data.access;
